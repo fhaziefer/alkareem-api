@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// schema.prisma
+
+enum Role {
+  USER
+  ADMIN
+  KOORHANNAH
+  KOORSALAMAH
+  KOORAISYAH
+  KOORMARYAM
+  KOORZAINAB
+  KOORQOMARIYAH
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Status {
+  SINGLE
+  MARRIED
+  WIDOWED
+}
+
+model Bani {
+  id        Int    @id @default(autoincrement())
+  bani_name String
+
+  Profil Profile[]
+
+  @@map("bani")
+}
+
+model Generasi {
+  id            Int    @id @default(autoincrement())
+  generasi_name String
+
+  Profil Profile[]
+
+  @@map("generasi")
+}
+
+model Subscription {
+  id                Int    @id @default(autoincrement())
+  subscription_name String
+  subcription_price Int
+
+  Profil Profile[]
+
+  @@map("subscription")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  username String  @unique
+  password String
+  token    String?
+
+  role   Role     @default(USER)
+  Profil Profile?
+
+  @@map("user")
+}
+
+model Profile {
+  id           String   @id @default(uuid())
+  name         String
+  gender       Gender   @default(MALE)
+  anak_ke      Int
+  birthday     DateTime
+  pendidikan   String
+  alive_status Boolean  @default(true)
+  avatar       String
+
+  userId        String  @unique @map("user_id")
+  baniId        Int     @unique @map("bani_id")
+  generasiId    Int     @unique @map("generasi_id")
+  statusId      Int     @unique @map("status_id")
+  parentId      String? @map("parent_id")
+  husbandId     String? @unique @map("husband_id")
+  subsriptionId Int     @unique @map("subsctiption_id")
+
+  user        User         @relation(fields: [userId], references: [id])
+  bani        Bani         @relation(fields: [baniId], references: [id])
+  generasi    Generasi     @relation(fields: [generasiId], references: [id])
+  status      Status       @default(SINGLE)
+  subcription Subscription @relation(fields: [subsriptionId], references: [id])
+
+  parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id])
+  children Profile[] @relation("ParentChildren")
+
+  husband Profile? @relation("Partner", fields: [husbandId], references: [id])
+  wife    Profile? @relation("Partner")
+
+  address Address?
+  contact Contact?
+
+  @@map("profile")
+}
+
+model Address {
+  id          String @id @default(uuid())
+  street      String
+  village     String
+  district    String
+  city        String
+  province    String
+  postal_code Int
+  profileId   String @unique @map("profile_id")
+
+  profile Profile @relation(fields: [profileId], references: [id])
+
+  @@map("address")
+}
+
+model Contact {
+  id        String @id @default(uuid())
+  phone     String
+  instagram String
+  email     String
+  profileId String @unique @map("profile_id")
+
+  profile Profile @relation(fields: [profileId], references: [id])
+
+  @@map("contact")
+}
