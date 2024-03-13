@@ -2,9 +2,14 @@
   "name": "alkareem-api",
   "version": "1.0.0",
   "description": "Restful API Al-Kareem",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest -i"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -16,8 +21,28 @@
   ],
   "author": "Yusuf Fadlulloh Abdurrohman",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/fhaziefer/alkareem-api/issues"
   },
-  "homepage": "https://github.com/fhaziefer/alkareem-api#readme"
+  "homepage": "https://github.com/fhaziefer/alkareem-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.3",
+    "joi": "^17.12.2",
+    "uuid": "^9.0.1",
+    "winston": "^3.12.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^9.0.8",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "prisma": "^5.11.0",
+    "supertest": "^6.3.4"
+  }
 }
