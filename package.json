@@ -1,0 +1,23 @@
+{
+  "name": "alkareem-api",
+  "version": "1.0.0",
+  "description": "Restful API Al-Kareem",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fhaziefer/alkareem-api.git"
+  },
+  "keywords": [
+    "api",
+    "alkareem"
+  ],
+  "author": "Yusuf Fadlulloh Abdurrohman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fhaziefer/alkareem-api/issues"
+  },
+  "homepage": "https://github.com/fhaziefer/alkareem-api#readme"
+}
