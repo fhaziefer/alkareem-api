@@ -1,6 +1,5 @@
 import supertest from "supertest";
 import {web} from "../src/application/web.js"
-import {prismaClient} from "../src/application/database.js"
 import {logger} from "../src/application/logging.js";
 import { removeTestUser, createTestUser } from "./test-util.js";
 
