@@ -129,7 +129,7 @@ describe('GET /user', function () {
         await removeTestAdmin();
     });
 
-    it('should can get all basic user', async () => {
+    it('should can get all user', async () => {
         const result = await supertest(web)
         .get('/user')
         .set('Authorization', 'admin')

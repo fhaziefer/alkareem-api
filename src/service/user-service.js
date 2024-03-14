@@ -1,4 +1,4 @@
-import { getUserValidation, loginUserValidation, registerUserValidation } from "../validation/user-validation.js"
+import { getUserValidation, loginUserValidation, registerUserValidation, updateUserValidation } from "../validation/user-validation.js"
 import { validate } from "../validation/validation.js"
 import {prismaClient} from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
@@ -26,8 +26,7 @@ const userRegister = async (request) => {
         data: user,
         select: {
             id: true,
-            username: true,
-            password: true
+            username: true
         }
     });
 
@@ -114,9 +113,43 @@ const userGetAll = async (role) => {
 
 }
 
+const userUpdate = async (request) => {
+    
+    const user = validate(updateUserValidation, request);
+    
+    const totalUserInDatabase = await prismaClient.user.count({
+        where: {
+            username: user.username
+        }
+    });
+
+    if (totalUserInDatabase !== 1) {
+        throw new ResponseError(404, "User is not found")
+    }
+
+    const data = {}
+
+    if (user.password){
+        data.password = await bcrypt.hash(user.password, 10);
+    }
+
+    return prismaClient.user.update({
+        where: {
+            username: user.username
+        },
+        data: data,
+        select: {
+            id: true,
+            username: true
+        }
+    })
+
+}
+
 export default {
     userRegister,
     userLogin,
     userGet,
-    userGetAll
+    userGetAll,
+    userUpdate
 }

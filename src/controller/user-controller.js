@@ -46,9 +46,26 @@ const userGetAll = async (req, res, next) =>{
     }
 }
 
+const userUpdate = async (req, res, next) =>{
+    try {
+        
+        const username = req.user.username
+        const request = req.body;
+        request.username = username;
+
+        const result = await userService.userUpdate(request);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegister,
     userLogin,
     userGet,
-    userGetAll
+    userGetAll,
+    userUpdate
 }
