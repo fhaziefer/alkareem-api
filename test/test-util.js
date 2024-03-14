@@ -18,3 +18,23 @@ export const createTestUser = async () => {
         }
     })
 }
+
+export const removeTestAdmin = async () => {
+    await prismaClient.user.deleteMany({
+        where: {
+            username: "admin"
+        }
+    })
+}
+
+export const createTestAdmin = async () => {
+    await prismaClient.user.create({
+        data: {
+            username: "admin",
+            password: await bcrypt.hash("admin12345678", 10),
+            token: "admin",
+            role: "ADMIN"
+        }
+    })
+
+}

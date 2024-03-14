@@ -91,9 +91,15 @@ const userGet = async (username) => {
 
 }
 
-const userGetAll = async () => {
+const userGetAll = async (role) => {
     
+    role = validate(getUserValidation, role)
+    const isBasicUser = role === "USER"
+
     const user = await prismaClient.user.findMany({
+        where: {
+            ...(isBasicUser ? {role : role}: {})
+        },
         select: {
             id: true,
             username: true

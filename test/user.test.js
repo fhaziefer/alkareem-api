@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import {web} from "../src/application/web.js"
 import {logger} from "../src/application/logging.js";
-import { removeTestUser, createTestUser } from "./test-util.js";
+import { removeTestUser, createTestUser, createTestAdmin, removeTestAdmin } from "./test-util.js";
 
 describe('POST /register', function() {
 
@@ -90,6 +90,54 @@ describe('GET /user/current', function () {
 
         expect(result.status).toBe(200);
         expect(result.body.data.username).toBe("test")
+    })
+
+})
+
+describe('GET /user', function () {
+    // GET ALL BASIC USER
+
+    beforeEach(async () => {
+        await createTestUser();
+    });
+
+    afterEach(async () => {
+        await removeTestUser();
+    })
+
+    it('should can get all basic user', async () => {
+        const result = await supertest(web)
+        .get('/user')
+        .set('Authorization', 'test')
+
+        logger.info(result.body);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBeDefined();
+    })
+
+})
+
+describe('GET /user', function () {
+    // GET ALL ADMIN USER
+
+    beforeEach(async () => {
+        await createTestAdmin();
+    });
+
+    afterEach(async () => {
+        await removeTestAdmin();
+    });
+
+    it('should can get all basic user', async () => {
+        const result = await supertest(web)
+        .get('/user')
+        .set('Authorization', 'admin')
+
+        logger.info(result.body);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBeDefined();
     })
 
 })

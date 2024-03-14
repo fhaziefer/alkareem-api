@@ -36,7 +36,8 @@ const userGet = async (req, res, next) =>{
 
 const userGetAll = async (req, res, next) =>{
     try {
-        const result = await userService.userGetAll();
+        const role = req.user.role
+        const result = await userService.userGetAll(role);
         res.status(200).json({
             data: result
         })
