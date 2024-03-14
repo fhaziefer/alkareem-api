@@ -1,4 +1,4 @@
-import { loginUserValidation, registerUserValidation } from "../validation/user-validation.js"
+import { getUserValidation, loginUserValidation, registerUserValidation } from "../validation/user-validation.js"
 import { validate } from "../validation/validation.js"
 import {prismaClient} from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
@@ -70,7 +70,47 @@ const userLogin = async (request) => {
 
 }
 
+const userGet = async (username) => {
+    username = validate(getUserValidation, username);
+
+    const user = await prismaClient.user.findUnique({
+        where: {
+            username: username
+        },
+        select: {
+            id: true,
+            username: true
+        }
+    });
+
+    if (!user) {
+        throw new ResponseError(404, "User is not found")
+    }
+
+    return user;
+
+}
+
+const userGetAll = async () => {
+    
+    const user = await prismaClient.user.findMany({
+        select: {
+            id: true,
+            username: true
+        }
+    });
+
+    if (!user) {
+        throw new ResponseError(404, "User is not found")
+    }
+
+    return user;
+
+}
+
 export default {
     userRegister,
-    userLogin
+    userLogin,
+    userGet,
+    userGetAll
 }

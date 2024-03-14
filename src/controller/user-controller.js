@@ -22,7 +22,32 @@ const userLogin = async (req, res, next) =>{
     }
 }
 
+const userGet = async (req, res, next) =>{
+    try {
+        const username = req.user.username;
+        const result = await userService.userGet(username);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const userGetAll = async (req, res, next) =>{
+    try {
+        const result = await userService.userGetAll();
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegister,
-    userLogin
+    userLogin,
+    userGet,
+    userGetAll
 }
