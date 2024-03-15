@@ -1,10 +1,12 @@
-import { getUserValidation, loginUserValidation, registerUserValidation, updateUserValidation } from "../validation/user-validation.js"
+import { getUserValidation, loginUserValidation, logoutUserValidation, registerUserValidation, updateUserValidation } from "../validation/user-validation.js"
 import { validate } from "../validation/validation.js"
 import {prismaClient} from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
 import bcrypt from 'bcrypt';
 import {v4 as uuid} from 'uuid'
 
+
+//* UNTUK REGISTRASI USER BARU
 
 const userRegister = async (request) => {
     const user = validate(registerUserValidation, request);
@@ -31,6 +33,8 @@ const userRegister = async (request) => {
     });
 
 }
+
+//* UNTUK LOGIN USER DENGAN MENAMBAHKAN VALUE DI TOKEN
 
 const userLogin = async (request) => {
     const loginRequest = validate(loginUserValidation, request);
@@ -63,11 +67,14 @@ const userLogin = async (request) => {
         },
         select: {
             id: true,
+            username: true,
             token: true
         }
        })
 
 }
+
+//* UNTUK GET DATA USER YANG LOGIN
 
 const userGet = async (username) => {
     username = validate(getUserValidation, username);
@@ -89,6 +96,8 @@ const userGet = async (username) => {
     return user;
 
 }
+
+//* UNTUK GET SEMUA DATA USER YANG ADA DI DATABASE BERDASARKAN ROLE
 
 const userGetAll = async (role) => {
     
@@ -112,6 +121,8 @@ const userGetAll = async (role) => {
     return user;
 
 }
+
+//* SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
 const userUpdate = async (request) => {
     
@@ -146,10 +157,41 @@ const userUpdate = async (request) => {
 
 }
 
+//* UNTUK LOGOUT USER DENGAN MENGHAPUS TOKEN USER
+
+const userLogout = async (username) => {
+    username = validate(logoutUserValidation, username);
+
+    const user = await prismaClient.user.findUnique({
+        where: {
+            username: username
+        }
+    });
+
+    if (!user) {
+        throw new ResponseError(404, "User is not found");
+    }
+
+    return prismaClient.user.update({
+        where: {
+            username: username
+        },
+        data: {
+            token: null
+        },
+        select: {
+            id: true,
+            username: true
+        }
+    })
+
+}
+
 export default {
     userRegister,
     userLogin,
     userGet,
     userGetAll,
-    userUpdate
+    userUpdate,
+    userLogout
 }
