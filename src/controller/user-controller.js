@@ -53,9 +53,9 @@ const userUpdate = async (req, res, next) =>{
         const request = req.body;
         request.username = username;
 
-        const result = await userService.userUpdate(request);
+        await userService.userUpdate(request);
         res.status(200).json({
-            data: result
+            data: "User data is successfuly updated"
         })
     } catch (e) {
         next(e)
