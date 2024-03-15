@@ -1,7 +1,5 @@
 # Welcome to Alkareem API Documentation
 
-## Description
-
 *Alkareem API* is a RESTful API designed to support the lineage book application of The Big Family Bani KH. Abdul Karim. By using this API, users can efficiently access and manage lineage-related data of The Big Family Bani KH. Abdul Karim.
 
 *Alkareem API* provides a variety of features that enable users to perform registration, login, logout, as well as read and update user data. Additionally, this API also offers functionality to read data of all registered users and obtain information about the currently logged-in user.
