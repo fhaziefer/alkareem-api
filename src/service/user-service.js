@@ -122,7 +122,8 @@ const userGetAll = async (role) => {
 
 }
 
-//* SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
+//* UNTUK UPDATE DATA USER YANG ADA DI DATABASE BERDASARKAN ROLE
+//! SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
 const userUpdate = async (request) => {
     
