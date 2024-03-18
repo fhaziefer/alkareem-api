@@ -29,6 +29,7 @@ enum Role {
 enum Gender {
   MALE
   FEMALE
+  UNKNOWN
 }
 
 enum Status {
@@ -56,7 +57,7 @@ model Generasi {
 }
 
 model Subscription {
-  id                Int    @id @default(autoincrement())
+  id                String @id
   subscription_name String
   subcription_price Int
 
@@ -74,32 +75,34 @@ model User {
   role   Role     @default(USER)
   Profil Profile?
 
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+
   @@map("user")
 }
 
 model Profile {
   id           String   @id @default(uuid())
   name         String
-  gender       Gender   @default(MALE)
-  anak_ke      Int
-  birthday     DateTime
-  pendidikan   String
+  gender       Gender   @default(UNKNOWN)
+  anak_ke      Int?
+  birthday     DateTime?
+  pendidikan   String?
   alive_status Boolean  @default(true)
-  avatar       String
+  avatar       String?
 
   userId        String  @unique @map("user_id")
-  baniId        Int     @unique @map("bani_id")
-  generasiId    Int     @unique @map("generasi_id")
-  statusId      Int     @unique @map("status_id")
+  baniId        Int?    @unique @map("bani_id")
+  generasiId    Int?    @map("generasi_id")
   parentId      String? @map("parent_id")
   husbandId     String? @unique @map("husband_id")
-  subsriptionId Int     @unique @map("subsctiption_id")
+  subsriptionId String? @map("subsctiption_id")
 
-  user        User         @relation(fields: [userId], references: [id])
-  bani        Bani         @relation(fields: [baniId], references: [id])
-  generasi    Generasi     @relation(fields: [generasiId], references: [id])
-  status      Status       @default(SINGLE)
-  subcription Subscription @relation(fields: [subsriptionId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  bani        Bani?         @relation(fields: [baniId], references: [id])
+  generasi    Generasi?     @relation(fields: [generasiId], references: [id])
+  status      Status        @default(SINGLE)
+  subcription Subscription? @relation(fields: [subsriptionId], references: [id])
 
   parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id])
   children Profile[] @relation("ParentChildren")
@@ -110,12 +113,15 @@ model Profile {
   address Address?
   contact Contact?
 
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+
   @@map("profile")
 }
 
 model Address {
   id          String @id @default(uuid())
-  street      String
+  street      String?
   village     String
   district    String
   city        String
@@ -125,17 +131,23 @@ model Address {
 
   profile Profile @relation(fields: [profileId], references: [id])
 
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+
   @@map("address")
 }
 
 model Contact {
   id        String @id @default(uuid())
-  phone     String
-  instagram String
-  email     String
+  phone     String?
+  instagram String?
+  email     String?
   profileId String @unique @map("profile_id")
 
   profile Profile @relation(fields: [profileId], references: [id])
+
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
 
   @@map("contact")
 }

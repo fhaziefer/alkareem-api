@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `profile` MODIFY `gender` ENUM('MALE', 'FEMALE', 'UNKNOWN') NOT NULL DEFAULT 'MALE';
