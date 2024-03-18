@@ -85,7 +85,13 @@ const userGet = async (username) => {
         },
         select: {
             id: true,
-            username: true
+            username: true,
+            Profil: {
+                select: {
+                    name : true,
+                    avatar: true
+                }
+            }
         }
     });
 

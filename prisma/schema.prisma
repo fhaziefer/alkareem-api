@@ -36,6 +36,7 @@ enum Status {
   SINGLE
   MARRIED
   WIDOWED
+  UNKNOWN
 }
 
 model Bani {
@@ -101,7 +102,7 @@ model Profile {
   user        User          @relation(fields: [userId], references: [id])
   bani        Bani?         @relation(fields: [baniId], references: [id])
   generasi    Generasi?     @relation(fields: [generasiId], references: [id])
-  status      Status        @default(SINGLE)
+  status      Status        @default(UNKNOWN)
   subcription Subscription? @relation(fields: [subsriptionId], references: [id])
 
   parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id])
