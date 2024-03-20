@@ -16,6 +16,7 @@ userRouter.delete('/logout', userController.userLogout);
 //* PROFILE ROUTE
 
 userRouter.post('/user/profile', profileController.createProfile);
+userRouter.patch('/user/profile/current', profileController.updateProfile);
 
 export {
     userRouter
