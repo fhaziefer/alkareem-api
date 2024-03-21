@@ -2,9 +2,10 @@ import { createProfileValidation, updateProfileValidation } from "../validation/
 import { validate } from "../validation/validation.js"
 import { prismaClient } from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
+import { logger } from "../application/logging.js";
 
 //* UNTUK MEMBUAT PROFILE UNTUK USER
-//! By UserId
+
 const createProfile = async (user, request)=> {
 
     const profile = validate(createProfileValidation, request);
@@ -30,14 +31,68 @@ const createProfile = async (user, request)=> {
             alive_status: true,
             avatar: true,
             status: true,
+            parentId: true,
+            husbandId: true,
             userId: true
         }
     })
 
 }
 
+//* UNTUK GET PROFILE DARI USER
+
+const getProfile = async (user) => {
+
+    const profile = await prismaClient.profile.findUnique({
+        where: {
+            userId : user.id
+        },
+        select: {
+            name: true,
+            gender: true,
+            anak_ke: true,
+            birthday: true,
+            alive_status: true,
+            status: true,
+            husband: {
+                select: {
+                    name: true
+                }
+            },
+            parent: {
+                select: {
+                    name: true
+                }
+            },
+            wife: {
+                select: {
+                    name: true
+                }
+            },
+            bani: {
+                select: {
+                    bani_name: true
+                }
+            },
+            generasi: {
+                select: {
+                    generasi_name: true
+                }
+            }
+        }
+    })
+    logger.info(user.id)
+
+    if (!profile) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    return profile;
+
+}
+
 //* UNTUK UPDATE PROFILE DARI USER
-//! By UserId
+
 const updateProfile = async (user, request) => {
     
     const profile = validate(updateProfileValidation, request)
@@ -61,9 +116,7 @@ const updateProfile = async (user, request) => {
             gender: profile.gender,
             anak_ke: profile.anak_ke,
             birthday: profile.birthday,
-            pendidikan: profile.pendidikan,
             alive_status: profile.alive_status,
-            subcription: profile.subcription,
             status: profile.status,
             bani: profile.bani,
             generasi: profile.generasi
@@ -73,9 +126,7 @@ const updateProfile = async (user, request) => {
             gender: true,
             anak_ke: true,
             birthday: true,
-            pendidikan: true,
             alive_status: true,
-            subcription: true,
             status: true,
             bani: true,
             generasi: true
@@ -86,5 +137,6 @@ const updateProfile = async (user, request) => {
 
 export default {
     createProfile,
+    getProfile,
     updateProfile
 }

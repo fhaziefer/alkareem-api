@@ -1,3 +1,4 @@
+
 import profileService from "../service/profile-service.js";
 
 const createProfile = async (req, res, next) => {
@@ -9,6 +10,21 @@ const createProfile = async (req, res, next) => {
         res.status(200).json({
             data: result
         })
+    } catch (e) {
+        next(e);
+    }
+
+}
+
+const getProfile = async (req, res, next) => {
+
+    try {
+        const user = req.user;
+        const result = await profileService.getProfile(user);
+        res.status(200).json({
+            data: result
+        });
+        
     } catch (e) {
         next(e);
     }
@@ -34,5 +50,6 @@ const updateProfile = async (req, res, next) => {
 
 export default {
     createProfile,
+    getProfile,
     updateProfile
 }

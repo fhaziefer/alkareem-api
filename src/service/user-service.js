@@ -103,31 +103,6 @@ const userGet = async (username) => {
 
 }
 
-//* UNTUK GET SEMUA DATA USER YANG ADA DI DATABASE BERDASARKAN ROLE
-
-const userGetAll = async (role) => {
-    
-    role = validate(getUserValidation, role)
-    const isBasicUser = role === "USER"
-
-    const user = await prismaClient.user.findMany({
-        where: {
-            ...(isBasicUser ? {role : role}: {})
-        },
-        select: {
-            id: true,
-            username: true
-        }
-    });
-
-    if (!user) {
-        throw new ResponseError(404, "User is not found")
-    }
-
-    return user;
-
-}
-
 //* UNTUK UPDATE DATA USER YANG ADA DI DATABASE BERDASARKAN ROLE
 //! SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
@@ -198,7 +173,6 @@ export default {
     userRegister,
     userLogin,
     userGet,
-    userGetAll,
     userUpdate,
     userLogout
 }

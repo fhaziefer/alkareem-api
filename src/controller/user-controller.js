@@ -34,18 +34,6 @@ const userGet = async (req, res, next) =>{
     }
 }
 
-const userGetAll = async (req, res, next) =>{
-    try {
-        const role = req.user.role
-        const result = await userService.userGetAll(role);
-        res.status(200).json({
-            data: result
-        })
-    } catch (e) {
-        next(e)
-    }
-}
-
 const userUpdate = async (req, res, next) =>{
     try {
         
@@ -77,7 +65,6 @@ export default {
     userRegister,
     userLogin,
     userGet,
-    userGetAll,
     userUpdate,
     userLogout
 }
