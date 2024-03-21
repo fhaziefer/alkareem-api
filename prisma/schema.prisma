@@ -87,7 +87,7 @@ model Profile {
   name         String
   gender       Gender   @default(UNKNOWN)
   anak_ke      Int?
-  birthday     DateTime?
+  birthday     DateTime? @db.Date
   pendidikan   String?
   alive_status Boolean  @default(true)
   avatar       String?
