@@ -49,6 +49,14 @@ const createProfile = async (user, request)=> {
 
 const getProfile = async (user) => {
 
+    const profileGen = await prismaClient.profile.findUnique({
+        where: {
+            userId : user.id
+        }
+    })
+
+    if (profileGen.gender === "FEMALE") {}
+
     const profile = await prismaClient.profile.findUnique({
         where: {
             userId : user.id
@@ -61,17 +69,22 @@ const getProfile = async (user) => {
             alive_status: true,
             status: true,
             avatar: true,
+            user: {
+                select: {
+                    username: true
+                }
+            },
             husband: {
                 select: {
                     name: true
                 }
             },
-            parent: {
+            wife: {
                 select: {
                     name: true
                 }
             },
-            wife: {
+            parent: {
                 select: {
                     name: true
                 }
