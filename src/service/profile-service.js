@@ -2,7 +2,6 @@ import { createProfileValidation, updateProfileValidation } from "../validation/
 import { validate } from "../validation/validation.js"
 import { prismaClient } from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
-import { logger } from "../application/logging.js";
 
 //* UNTUK MEMBUAT PROFILE UNTUK USER
 
@@ -20,6 +19,14 @@ const createProfile = async (user, request)=> {
         throw new ResponseError(400, "Profile is already exist")
     }
 
+    if (request.gender === "MALE") {
+        profile.avatar = "/images/avatar/male.jpg"
+    } else if (request.gender === "FEMALE") {
+        profile.avatar = "/images/avatar/female.jpg"
+    } else {
+        profile.avatar = "/images/avatar/unknown.jpg"
+    }
+
     profile.userId = user.id;
 
     return prismaClient.profile.create({
@@ -32,8 +39,7 @@ const createProfile = async (user, request)=> {
             avatar: true,
             status: true,
             parentId: true,
-            husbandId: true,
-            userId: true
+            husbandId: true
         }
     })
 
@@ -54,6 +60,7 @@ const getProfile = async (user) => {
             birthday: true,
             alive_status: true,
             status: true,
+            avatar: true,
             husband: {
                 select: {
                     name: true
@@ -81,7 +88,6 @@ const getProfile = async (user) => {
             }
         }
     })
-    logger.info(user.id)
 
     if (!profile) {
         throw new ResponseError(404, "Profile is not found")
@@ -135,8 +141,75 @@ const updateProfile = async (user, request) => {
 
 }
 
+//* UNTUK UPLOAD AVATAR PROFILE
+
+const uploadAvatarProfile = async (user, avatar) => {
+    const totalProfileInDatabase = await prismaClient.profile.count({
+        where: {
+            userId: user.id
+        }
+    })
+
+    if (totalProfileInDatabase !== 1) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    return prismaClient.profile.update({
+        where: {
+            userId: user.id
+        },
+        data: {
+            avatar: avatar
+        },
+        select: {
+            name: true,
+            avatar: true
+        }
+    })
+}
+
+//* UNTUK REMOVE AVATAR PROFILE
+
+const removeAvatarProfile = async (user) => {
+    const profile = await prismaClient.profile.findFirst({
+        where: {
+            userId: user.id
+        }
+    })
+
+    if (!profile) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    const gender = profile.gender
+    var newAvatar = profile.avatar
+
+    if (gender === "MALE") {
+        newAvatar = "/images/avatar/male.jpg"
+    } else if (gender === "FEMALE") {
+        newAvatar = "/images/avatar/female.jpg"
+    } else {
+        newAvatar = "/images/avatar/unknown.jpg"
+    }
+
+    return prismaClient.profile.update({
+        where: {
+            userId: user.id
+        },
+        data: {
+            avatar: newAvatar
+        },
+        select: {
+            name: true,
+            avatar: true
+        }
+    })
+}
+
 export default {
     createProfile,
     getProfile,
-    updateProfile
+    updateProfile,
+    uploadAvatarProfile,
+    removeAvatarProfile
 }
