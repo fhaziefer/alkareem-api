@@ -39,6 +39,7 @@ userRouter.patch('/user/profile/avatar/current', profileController.uploadAvatarP
 userRouter.patch('/user/profile/avatar/current/remove', profileController.removeAvatarProfile);
 userRouter.get('/user/profile/current', profileController.getProfile);
 userRouter.patch('/user/profile/current', profileController.updateProfile);
+userRouter.delete('/user/profile/current', profileController.deleteProfile);
 
 //*--------------
 

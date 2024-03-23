@@ -206,10 +206,31 @@ const removeAvatarProfile = async (user) => {
     })
 }
 
+//* UNTUK DELETE PROFILE
+
+const deleteProfile = async (user) => {
+    const profile = await prismaClient.profile.findFirst({
+        where: {
+            userId: user.id
+        }
+    })
+
+    if (!profile) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    return prismaClient.profile.delete({
+        where: {
+            userId: user.id
+        }
+    })
+}
+
 export default {
     createProfile,
     getProfile,
     updateProfile,
     uploadAvatarProfile,
-    removeAvatarProfile
+    removeAvatarProfile,
+    deleteProfile
 }
