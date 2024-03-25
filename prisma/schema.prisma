@@ -43,7 +43,7 @@ model Bani {
   id        Int    @id @default(autoincrement())
   bani_name String
 
-  Profil Profile[]
+  profil Profile[]
 
   @@map("bani")
 }
@@ -52,7 +52,7 @@ model Generasi {
   id            Int    @id @default(autoincrement())
   generasi_name String
 
-  Profil Profile[]
+  profil Profile[]
 
   @@map("generasi")
 }
@@ -62,7 +62,7 @@ model Subscription {
   subscription_name String
   subcription_price Int
 
-  Profil Profile[]
+  profil Profile[]
 
   @@map("subscription")
 }
@@ -74,7 +74,7 @@ model User {
   token    String?
 
   role   Role     @default(USER)
-  Profil Profile?
+  profil Profile?
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt

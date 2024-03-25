@@ -61,10 +61,36 @@ const userLogout = async (req, res, next) =>{
     }
 }
 
+const userSearch = async (req, res, next) => {
+    try {
+        const request = req.query.search
+        const result = await userService.userSearch(request)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const userGetById = async (req, res, next) => {
+    try {
+        const request = req.params.id
+        const result = await userService.userGetById(request)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegister,
     userLogin,
     userGet,
     userUpdate,
-    userLogout
+    userLogout,
+    userSearch,
+    userGetById
 }

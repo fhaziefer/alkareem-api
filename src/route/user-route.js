@@ -29,6 +29,8 @@ userRouter.use(avatarUpload);
 //* USER ROUTE
 
 userRouter.get('/user/current', userController.userGet);
+userRouter.get('/user/search', userController.userSearch);
+userRouter.get('/user/:id', userController.userGetById);
 userRouter.patch('/user/current', userController.userUpdate);
 userRouter.delete('/logout', userController.userLogout);
 

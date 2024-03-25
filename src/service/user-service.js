@@ -86,7 +86,7 @@ const userGet = async (username) => {
         select: {
             id: true,
             username: true,
-            Profil: {
+            profil: {
                 select: {
                     name : true,
                     avatar: true
@@ -169,10 +169,210 @@ const userLogout = async (username) => {
 
 }
 
+//* UNTUK SEARCH USER BY QUERY
+
+const userSearch = async (request) => {
+
+    const searchQuery = request
+
+    const user = await prismaClient.user.findMany({
+        where: {
+            AND: {
+                role: "USER",
+                OR: [
+                    {
+                        username: {
+                            contains: searchQuery
+                        }
+                    },{
+                        profil: {
+                            name: {
+                                contains: searchQuery
+                            }
+                        }
+                    },{
+                        profil: {
+                            bani: {
+                                bani_name:{
+                                    contains: searchQuery
+                                }
+                            }
+                        }
+                    },{
+                        profil: {
+                            address: {
+                                village:{
+                                    contains: searchQuery
+                                }
+                            }
+                        }
+                    },{
+                        profil: {
+                            address: {
+                                district:{
+                                    contains: searchQuery
+                                }
+                            }
+                        }
+                    },{
+                        profil: {
+                            address: {
+                                city: {
+                                    contains: searchQuery
+                                }
+                            }
+                        }
+                    },{
+                        profil: {
+                            address: {
+                                province:{
+                                    contains: searchQuery
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        orderBy: {
+            profil: {
+                name: 'asc'
+            }
+        },
+        select: {
+            id: true,
+            username: true,
+            profil: {
+                select:{
+                    name: true,
+                    avatar: true,
+                    husband: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    wife: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    parent: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    generasi: {
+                        select: {
+                            generasi_name: true
+                        }
+                    },
+                    bani: {
+                        select: {
+                            bani_name: true
+                        }
+                    },
+                    contact: {
+                        select: {
+                            phone: true,
+                            instagram: true,
+                            email: true
+                        }
+                    },
+                    address: {
+                        select: {
+                            street: true,
+                            village: true,
+                            district: true,
+                            city: true,
+                            province: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    return user
+
+}
+
+//* UNTUK GET USER BY ID
+
+const userGetById = async (request) => {
+    const userId = validate(getUserValidation, request)
+
+    const user = await prismaClient.user.findUnique({
+        where: {
+            id: userId
+        },
+        select: {
+            id: true,
+            username: true,
+            profil: {
+                select:{
+                    name: true,
+                    avatar: true,
+                    husband: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    wife: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    parent: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    generasi: {
+                        select: {
+                            generasi_name: true
+                        }
+                    },
+                    bani: {
+                        select: {
+                            bani_name: true
+                        }
+                    },
+                    contact: {
+                        select: {
+                            phone: true,
+                            instagram: true,
+                            email: true
+                        }
+                    },
+                    address: {
+                        select: {
+                            street: true,
+                            village: true,
+                            district: true,
+                            city: true,
+                            province: true
+                        }
+                    }
+                }
+            }
+        }
+
+    })
+
+    if (!user) {
+        throw new ResponseError(400, "User is not found")
+    }
+
+    return user;
+
+}
+
 export default {
     userRegister,
     userLogin,
     userGet,
     userUpdate,
-    userLogout
+    userLogout,
+    userSearch,
+    userGetById
 }
