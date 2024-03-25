@@ -127,7 +127,7 @@ model Address {
   district    String
   city        String
   province    String
-  postal_code Int
+  postal_code String
   profileId   String @unique @map("profile_id")
 
   profile Profile @relation(fields: [profileId], references: [id])

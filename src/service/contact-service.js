@@ -2,7 +2,6 @@ import { createContactValidation, updateContactValidation } from "../validation/
 import { validate } from "../validation/validation.js"
 import { prismaClient } from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
-import { logger } from "../application/logging.js";
 
 //* CREATE CONTACT
 
@@ -18,13 +17,13 @@ const createContact = async (user, request) => {
 
     const profileId = profile.id
 
-    const countProfile = await prismaClient.contact.count({
+    const countContact = await prismaClient.contact.count({
         where: {
             profileId: profileId
         }
     })
 
-    if (countProfile === 1) {
+    if (countContact === 1) {
         throw new ResponseError(400, "Contact is already exist")
     }
 
@@ -57,15 +56,14 @@ const getContact = async (user) => {
     })
 
     const profileId = profile.id
-    logger.info(user)
 
-    const countProfile = await prismaClient.contact.count({
+    const countContact = await prismaClient.contact.count({
         where: {
             profileId: profileId
         }
     })
 
-    if (countProfile !== 1) {
+    if (countContact !== 1) {
         throw new ResponseError(400, "Contact is not found")
     }
 
@@ -99,13 +97,13 @@ const updateContact = async (user,request) => {
 
     const profileId = profile.id
 
-    const countProfile = await prismaClient.contact.count({
+    const countContact = await prismaClient.contact.count({
         where: {
             profileId: profileId
         }
     })
 
-    if (countProfile !== 1) {
+    if (countContact !== 1) {
         throw new ResponseError(400, "Contact is not found")
     }
 
@@ -143,13 +141,13 @@ const deleteContact = async (user) => {
 
     const profileId = profile.id
 
-    const countProfile = await prismaClient.contact.count({
+    const countContact = await prismaClient.contact.count({
         where: {
             profileId: profileId
         }
     })
 
-    if (countProfile !== 1) {
+    if (countContact !== 1) {
         throw new ResponseError(400, "Contact is not found")
     }
 
