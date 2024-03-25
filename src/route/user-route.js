@@ -1,6 +1,7 @@
 import express from 'express';
 import userController from '../controller/user-controller.js';
 import profileController from '../controller/profile-controller.js';
+import contactController from '../controller/contact-controller.js';
 import { authMiddleware } from '../middleware/auth-middleware.js';
 import { avatarUpload } from '../middleware/image-upload-middleware.js';
 
@@ -42,6 +43,13 @@ userRouter.patch('/user/profile/current', profileController.updateProfile);
 userRouter.delete('/user/profile/current', profileController.deleteProfile);
 
 //*--------------
+
+//* CONTACT ROUTE
+
+userRouter.post('/user/profile/contact', contactController.createContact);
+userRouter.get('/user/profile/contact/current', contactController.getContact);
+userRouter.patch('/user/profile/contact/current', contactController.updateContact);
+userRouter.delete('/user/profile/contact/current', contactController.deleteContact);
 
 export {
     userRouter

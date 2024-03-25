@@ -32,14 +32,43 @@ const createProfile = async (user, request)=> {
     return prismaClient.profile.create({
         data: profile,
         select: {
-            name : true,
+            name: true,
             gender: true,
             anak_ke: true,
+            birthday: true,
             alive_status: true,
-            avatar: true,
             status: true,
-            parentId: true,
-            husbandId: true
+            avatar: true,
+            user: {
+                select: {
+                    username: true
+                }
+            },
+            husband: {
+                select: {
+                    name: true
+                }
+            },
+            wife: {
+                select: {
+                    name: true
+                }
+            },
+            parent: {
+                select: {
+                    name: true
+                }
+            },
+            bani: {
+                select: {
+                    bani_name: true
+                }
+            },
+            generasi: {
+                select: {
+                    generasi_name: true
+                }
+            }
         }
     })
 
@@ -48,14 +77,6 @@ const createProfile = async (user, request)=> {
 //* UNTUK GET PROFILE DARI USER
 
 const getProfile = async (user) => {
-
-    const profileGen = await prismaClient.profile.findUnique({
-        where: {
-            userId : user.id
-        }
-    })
-
-    if (profileGen.gender === "FEMALE") {}
 
     const profile = await prismaClient.profile.findUnique({
         where: {
@@ -138,6 +159,8 @@ const updateProfile = async (user, request) => {
             alive_status: profile.alive_status,
             status: profile.status,
             bani: profile.bani,
+            husbandId: profile.husbandId,
+            parentId: profile.parentId,
             generasi: profile.generasi
         },
         select: {
@@ -147,8 +170,37 @@ const updateProfile = async (user, request) => {
             birthday: true,
             alive_status: true,
             status: true,
-            bani: true,
-            generasi: true
+            avatar: true,
+            user: {
+                select: {
+                    username: true
+                }
+            },
+            husband: {
+                select: {
+                    name: true
+                }
+            },
+            wife: {
+                select: {
+                    name: true
+                }
+            },
+            parent: {
+                select: {
+                    name: true
+                }
+            },
+            bani: {
+                select: {
+                    bani_name: true
+                }
+            },
+            generasi: {
+                select: {
+                    generasi_name: true
+                }
+            }
         }
     })
 
