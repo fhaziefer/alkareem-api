@@ -57,6 +57,9 @@ userRouter.delete('/user/profile/contact/current', contactController.deleteConta
 //* ADDRESS ROUTE
 
 userRouter.post('/user/profile/address', addressController.createAddress);
+userRouter.get('/user/profile/address/current', addressController.getAddress);
+userRouter.patch('/user/profile/address/current', addressController.updateAddress);
+userRouter.delete('/user/profile/address/current', addressController.deleteAddress);
 
 export {
     userRouter
