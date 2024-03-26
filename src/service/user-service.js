@@ -327,6 +327,14 @@ const userGetById = async (request) => {
                             name: true
                         }
                     },
+                    children: {
+                        select: {
+                            anak_ke: true,
+                            name: true
+                        },orderBy:{
+                            anak_ke: 'asc'
+                        }
+                    },
                     generasi: {
                         select: {
                             generasi_name: true
