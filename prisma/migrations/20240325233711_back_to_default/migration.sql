@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `profile` MODIFY `bani_id` INTEGER NOT NULL DEFAULT 7,
+    MODIFY `generasi_id` INTEGER NOT NULL DEFAULT 10,
+    MODIFY `subsctiption_id` VARCHAR(191) NOT NULL DEFAULT 'FREE';

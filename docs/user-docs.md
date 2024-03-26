@@ -130,8 +130,12 @@ Content-Type: application/json
 ```json
 {
   "data": {
-    "id": "46e10066-b11f-4b1d-b6c5-e13ffc1207e1",
-    "username": "test"
+    "id": "9593757d-977b-4e21-aed1-c9d7d4cb62ce",
+    "username": "test",
+    "profil": {
+      "name": "Yusuf Fadlulloh",
+      "avatar": "/images/avatar/male.jpg"
+    }
   }
 }
 ```
@@ -144,50 +148,65 @@ Content-Type: application/json
 }
 ```
 
-## Get All Registered Users' Data
-
-Get data of all registered users using authorization token.
+## Get User By Id
 
 ### Endpoint
 
 - **Method**: `GET`
-- **URL**: `/user`
+- **URL**: `/user/:id`
 
-### Parameter
+### Parameters
 
-- **Authorization**: Token for authorization. Must be included in the request header.
+| Parameter     | Description                     |
+|---------------|---------------------------------|
+| `Authorization` | Token for authorization.      |
+| `id`          | ID of the user to retrieve.     |
 
-### Example Request
+### Headers
 
-```http
-GET /user HTTP/1.1
-Authorization: 3f3d7761-7d45-44ac-a440-e5896c4492a4
+```
 Accept: application/json
 Content-Type: application/json
+Authorization: 3f3d7761-7d45-44ac-a440-e5896c4492a4
 ```
 
-### Example Success Response
+### Response
 
 ```json
 {
-  "data": [
-    {
-      "id": "26ab8784-90cd-483f-ae00-3dd886ca0a2a",
-      "username": "user1"
-    },
-    {
-      "id": "b6ed4621-036e-48ba-b978-f1588ff8f5c7",
-      "username": "user2"
-    },
-    {
-      "id": "d021b4ba-92ed-47a6-ae3b-e53055b59d7b",
-      "username": "user3"
+  "data": {
+    "id": "9593757d-977b-4e21-aed1-c9d7d4cb62ce",
+    "username": "test",
+    "profile": {
+      "name": "Yusuf Fadlulloh",
+      "avatar": "/images/avatar/male.jpg",
+      "husband": null,
+      "wife": null,
+      "parent": null,
+      "generasi": {
+        "generasi_name": "Generasi Empat"
+      },
+      "bani": {
+        "bani_name": "Bani Salamah"
+      },
+      "contact": {
+        "phone": "6285843908203",
+        "instagram": "fadlulloh.abdurrohman",
+        "email": "fhaziefer99@gmail.com"
+      },
+      "address": {
+        "street": "Jl. Raya No. 228 003/004",
+        "village": "Turus",
+        "district": "Gurah",
+        "city": "Kediri",
+        "province": "Jawa Timur"
+      }
     }
-  ]
+  }
 }
 ```
 
-### Example Error Response
+### Error Example
 
 ```json
 {

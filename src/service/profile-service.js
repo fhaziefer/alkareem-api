@@ -158,10 +158,11 @@ const updateProfile = async (user, request) => {
             birthday: profile.birthday,
             alive_status: profile.alive_status,
             status: profile.status,
-            bani: profile.bani,
+            baniId: profile.baniId,
             husbandId: profile.husbandId,
             parentId: profile.parentId,
-            generasi: profile.generasi
+            generasiId: profile.generasiId,
+            pendidikan: profile.pendidikan
         },
         select: {
             name: true,
