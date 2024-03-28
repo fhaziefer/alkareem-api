@@ -99,16 +99,16 @@ model Profile {
   husbandId      String? @unique @map("husband_id")
   subscriptionId String  @default("FREE") @map("subsctiption_id")
 
-  user        User         @relation(fields: [userId], references: [id])
-  bani        Bani         @relation(fields: [baniId], references: [id])
-  generasi    Generasi     @relation(fields: [generasiId], references: [id])
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bani        Bani         @relation(fields: [baniId], references: [id], onDelete: Cascade)
+  generasi    Generasi     @relation(fields: [generasiId], references: [id], onDelete: Cascade)
   status      Status       @default(UNKNOWN)
-  subcription Subscription @relation(fields: [subscriptionId], references: [id])
+  subcription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 
-  parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id])
+  parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id], onDelete: SetNull)
   children Profile[] @relation("ParentChildren")
 
-  husband Profile? @relation("Partner", fields: [husbandId], references: [id])
+  husband Profile? @relation("Partner", fields: [husbandId], references: [id], onDelete: SetNull)
   wife    Profile? @relation("Partner")
 
   address Address?
@@ -130,7 +130,7 @@ model Address {
   postal_code String
   profileId   String  @unique @map("profile_id")
 
-  profile Profile @relation(fields: [profileId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -145,7 +145,7 @@ model Contact {
   email     String?
   profileId String  @unique @map("profile_id")
 
-  profile Profile @relation(fields: [profileId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

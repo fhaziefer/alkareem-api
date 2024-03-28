@@ -52,9 +52,39 @@ const profileUpdateAdmin = async (req, res, next) => {
     }
 }
 
+const contactUpdateAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const contactData = req.body
+        const result = await adminService.contactUpdateAdmin(userId, contactData)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
+const addressUpdateAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const addressData = req.body
+        const result = await adminService.addressUpdateAdmin(userId, addressData)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
 export default {
     userSearchAdmin,
     userGetByIdAdmin,
     userUpdateAdmin,
-    profileUpdateAdmin
+    profileUpdateAdmin,
+    contactUpdateAdmin,
+    addressUpdateAdmin
 }
