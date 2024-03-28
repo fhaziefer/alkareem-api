@@ -103,7 +103,7 @@ const userGet = async (username) => {
 
 }
 
-//* UNTUK UPDATE DATA USER YANG ADA DI DATABASE BERDASARKAN ROLE
+//* UNTUK UPDATE DATA USER
 //! SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
 const userUpdate = async (request) => {
