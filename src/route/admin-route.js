@@ -12,7 +12,7 @@ adminRouter.use('/', express.static('public'));
 
 //* UPLOAD FILE
 
-userRouter.use(avatarUpload);
+adminRouter.use(avatarUpload);
 
 //* ENDPOINT FOR ADMIN ROLE
 adminRouter.post('/admin/user', adminController.userRegisterAdmin);
