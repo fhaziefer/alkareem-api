@@ -175,19 +175,33 @@ Authorization: 3f3d7761-7d45-44ac-a440-e5896c4492a4
 ```json
 {
   "data": {
-    "id": "9593757d-977b-4e21-aed1-c9d7d4cb62ce",
-    "username": "test",
-    "profile": {
+    "id": "d83c111e-efc7-46bd-87ff-2dbdfc27a3a3",
+    "username": "test1",
+    "profil": {
       "name": "Yusuf Fadlulloh",
       "avatar": "/images/avatar/male.jpg",
       "husband": null,
-      "wife": null,
-      "parent": null,
+      "wife": {
+        "name": "Istrinya Yusuf Fadlulloh"
+      },
+      "parent": {
+        "name": "Bapaknya Yusuf Fadlulloh"
+      },
+      "children": [
+        {
+          "anak_ke": 1,
+          "name": "Anak Pertamanya Yusuf Fadlulloh"
+        },
+        {
+          "anak_ke": 2,
+          "name": "Anak Keduanya Yusuf Fadlulloh"
+        }
+      ],
       "generasi": {
-        "generasi_name": "Generasi Empat"
+        "generasi_name": "Generasi Tiga"
       },
       "bani": {
-        "bani_name": "Bani Salamah"
+        "bani_name": "Bani Hannah"
       },
       "contact": {
         "phone": "6285843908203",
