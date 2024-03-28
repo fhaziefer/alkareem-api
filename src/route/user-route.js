@@ -6,10 +6,13 @@ import addressController from '../controller/address-controller.js';
 import { authMiddleware } from '../middleware/auth-middleware.js';
 import { avatarUpload } from '../middleware/image-upload-middleware.js';
 import bodyParser from 'body-parser';
+import cors from 'cors'
 
 const userRouter = new express.Router();
 
-userRouter.use(bodyParser.urlencoded({extended:true}))
+userRouter.use(bodyParser.urlencoded({extended:false}))
+userRouter.use(bodyParser.json());
+userRouter.use(cors());
 
 //! AUTHORIZATION
 

@@ -3,10 +3,13 @@ import { authAdminMiddleware } from '../middleware/admin-auth-middleware.js';
 import adminController from '../controller/admin-controller.js';
 import { avatarUpload } from '../middleware/image-upload-middleware.js';
 import bodyParser from 'body-parser';
+import cors from 'cors'
 
 const adminRouter = new express.Router();
 
-adminRouter.use(bodyParser.urlencoded({extended:true}))
+adminRouter.use(bodyParser.urlencoded({extended:false}))
+adminRouter.use(bodyParser.json());
+adminRouter.use(cors());
 
 adminRouter.use(authAdminMiddleware);
 
