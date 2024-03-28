@@ -21,6 +21,8 @@ adminRouter.get('/admin/user/:id', adminController.userGetByIdAdmin);
 adminRouter.patch('/admin/user/:id', adminController.userUpdateAdmin);
 adminRouter.delete('/admin/user/:id', adminController.userDeleteAdmin);
 adminRouter.post('/admin/user/profil/:id', adminController.profileCreateAdmin);
+adminRouter.patch('/admin/user/profil/avatar/:id', adminController.uploadAvatarProfileAdmin);
+adminRouter.patch('/admin/user/profil/avatar/remove/:id', adminController.removeAvatarProfileAdmin);
 adminRouter.patch('/admin/user/profil/:id', adminController.profileUpdateAdmin);
 adminRouter.post('/admin/user/profil/contact/:id', adminController.contactCreateAdmin);
 adminRouter.patch('/admin/user/profil/contact/:id', adminController.contactUpdateAdmin);

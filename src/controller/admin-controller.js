@@ -90,6 +90,42 @@ const profileUpdateAdmin = async (req, res, next) => {
     }
 }
 
+const uploadAvatarProfileAdmin = async (req, res, next) => {
+    try {
+
+        if (!req.file) {
+            throw new ResponseError(401, "Please upload your images")
+        }
+
+        const userId = req.params.id;
+        var path = req.file.path;
+        path = path.substring(path.indexOf("/") + 1);
+
+        const avatar = `/${path}`
+
+        const result = await profileService.uploadAvatarProfile(userId, avatar);
+        res.status(200).json({
+            data:result
+        })
+
+    } catch (e) {
+        next(e);
+    }
+}
+
+const removeAvatarProfileAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const result = await profileService.removeAvatarProfile(userId);
+        res.status(200).json({
+            data:result
+        })
+
+    } catch (e) {
+        next(e);
+    }
+}
+
 const contactCreateAdmin = async (req, res, next) => {
     try {
         const userId = req.params.id
@@ -152,6 +188,8 @@ export default {
     userDeleteAdmin,
     profileCreateAdmin,
     profileUpdateAdmin,
+    uploadAvatarProfileAdmin,
+    removeAvatarProfileAdmin,
     contactCreateAdmin,
     contactUpdateAdmin,
     addressCreateAdmin,

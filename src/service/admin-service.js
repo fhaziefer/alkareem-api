@@ -308,6 +308,73 @@ const profileCreateAdmin = async (userId, profilData) => {
 
 }
 
+const uploadAvatarProfileAdmin = async (userId, avatar) => {
+    
+    userId = validate(userIdValidation, userId)
+
+    const totalProfileInDatabase = await prismaClient.profile.count({
+        where: {
+            userId: userId
+        }
+    })
+
+    if (totalProfileInDatabase !== 1) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    return prismaClient.profile.update({
+        where: {
+            userId: userId
+        },
+        data: {
+            avatar: avatar
+        },
+        select: {
+            name: true,
+            avatar: true
+        }
+    })
+}
+
+const removeAvatarProfileAdmin = async (userId) => {
+    
+    userId = validate(userIdValidation, userId)
+    
+    const profile = await prismaClient.profile.findFirst({
+        where: {
+            userId: userId
+        }
+    })
+
+    if (!profile) {
+        throw new ResponseError(404, "Profile is not found")
+    }
+
+    const gender = profile.gender
+    var newAvatar = profile.avatar
+
+    if (gender === "MALE") {
+        newAvatar = "/images/avatar/male.jpg"
+    } else if (gender === "FEMALE") {
+        newAvatar = "/images/avatar/female.jpg"
+    } else {
+        newAvatar = "/images/avatar/unknown.jpg"
+    }
+
+    return prismaClient.profile.update({
+        where: {
+            userId: userId
+        },
+        data: {
+            avatar: newAvatar
+        },
+        select: {
+            name: true,
+            avatar: true
+        }
+    })
+}
+
 const profileUpdateAdmin = async (userId, profilData) => {
 
     userId = validate(userIdValidation, userId);
@@ -569,6 +636,8 @@ export default {
     userDeleteAdmin,
     profileCreateAdmin,
     profileUpdateAdmin,
+    uploadAvatarProfileAdmin,
+    removeAvatarProfileAdmin,
     contactCreateAdmin,
     contactUpdateAdmin,
     addressCreateAdmin,
