@@ -1,4 +1,4 @@
-import { updateAddressValidation, updateContactValidation, updateProfileValidation, updateUserValidation, userIdValidation } from "../validation/admin-validation.js"
+import { createAddressValidation, createContactValidation, createProfileValidation, registerUserValidation, updateAddressValidation, updateContactValidation, updateProfileValidation, updateUserValidation, userIdValidation } from "../validation/admin-validation.js"
 import { validate } from "../validation/validation.js"
 import { prismaClient } from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
@@ -6,6 +6,32 @@ import bcrypt from 'bcrypt';
 import {v4 as uuid} from 'uuid'
 
 //* UNTUK SEARCH USER BY QUERY
+
+const userRegisterAdmin = async (request) => {
+    const user = validate(registerUserValidation, request);
+
+    const countUser = await prismaClient.user.count({
+        where: {
+            username: user.username
+        }
+    });
+
+    if (countUser === 1) {
+        throw new ResponseError(400, "Username is already exist")
+    }
+
+    user.password = await bcrypt.hash(user.password, 10);
+    user.username = await user.username.toLowerCase();
+
+    return prismaClient.user.create({
+        data: user,
+        select: {
+            id: true,
+            username: true
+        }
+    });
+
+}
 
 const userSearchAdmin = async (request) => {
 
@@ -191,6 +217,97 @@ const userUpdateAdmin = async (userId, user) => {
 
 }
 
+const userDeleteAdmin = async (userId) => {
+    userId = validate(userIdValidation, userId);
+
+    const totalUserInDatabase = await prismaClient.user.count({
+        where: {
+            id: userId
+        }
+    });
+
+    if (totalUserInDatabase !== 1) {
+        throw new ResponseError(404, "User is not found")
+    }
+
+    return prismaClient.user.delete({
+        where: {
+            id: userId
+        }
+    })
+
+}
+
+const profileCreateAdmin = async (userId, profilData) => {
+
+    userId = validate(userIdValidation, userId);
+    const profile = validate(createProfileValidation, profilData)
+
+    const countProfile = await prismaClient.profile.count({
+        where: {
+            userId: userId
+        }
+    });
+
+    if (countProfile === 1) {
+        throw new ResponseError(400, "Profile is already exist")
+    }
+
+    if (request.gender === "MALE") {
+        profile.avatar = "/images/avatar/male.jpg"
+    } else if (request.gender === "FEMALE") {
+        profile.avatar = "/images/avatar/female.jpg"
+    } else {
+        profile.avatar = "/images/avatar/unknown.jpg"
+    }
+
+    profile.userId = userId;
+
+    return prismaClient.profile.create({
+        data: profile,
+        select: {
+            name: true,
+            gender: true,
+            anak_ke: true,
+            birthday: true,
+            alive_status: true,
+            status: true,
+            avatar: true,
+            user: {
+                select: {
+                    username: true
+                }
+            },
+            husband: {
+                select: {
+                    name: true
+                }
+            },
+            wife: {
+                select: {
+                    name: true
+                }
+            },
+            parent: {
+                select: {
+                    name: true
+                }
+            },
+            bani: {
+                select: {
+                    bani_name: true
+                }
+            },
+            generasi: {
+                select: {
+                    generasi_name: true
+                }
+            }
+        }
+    })
+
+}
+
 const profileUpdateAdmin = async (userId, profilData) => {
 
     userId = validate(userIdValidation, userId);
@@ -266,6 +383,46 @@ const profileUpdateAdmin = async (userId, profilData) => {
     
 }
 
+const contactCreateAdmin = async (userId, contactData) => {
+    userId = validate(userIdValidation, userId);
+    const contact = validate(createContactValidation, contactData)
+
+    const profile = await prismaClient.profile.findFirst({
+        where: {
+            userId: userId
+        }
+    })
+
+    const profileId = profile.id
+
+    const countContact = await prismaClient.contact.count({
+        where: {
+            profileId: profileId
+        }
+    })
+
+    if (countContact === 1) {
+        throw new ResponseError(400, "Contact is already exist")
+    }
+
+    contact.profileId = profileId
+
+    return prismaClient.contact.create({
+        data: contact,
+        select: {
+            email: true,
+            phone: true,
+            instagram: true,
+            profile: {
+                select: {
+                    name: true,
+                }
+            }
+        }
+    })
+
+}
+
 const contactUpdateAdmin = async (userId, contactData) => {
     userId = validate(userIdValidation, userId);
     const contact = validate(updateContactValidation, contactData);
@@ -309,6 +466,48 @@ const contactUpdateAdmin = async (userId, contactData) => {
         }
     })
 
+}
+
+const addressCreateAdmin = async (userId, addressData) => {
+    userId = validate(userIdValidation, userId);
+    const address = validate(createAddressValidation, addressData);
+
+    const profile = await prismaClient.profile.findFirst({
+        where: {
+            userId: userId
+        }
+    });
+
+    const profileId = profile.id
+
+    const countAddress = await prismaClient.address.count({
+        where: {
+            profileId: profileId
+        }
+    })
+
+    if (countAddress === 1) {
+        throw new ResponseError(400, "Address is already exist")
+    }
+
+    address.profileId = profileId
+
+    return prismaClient.address.create({
+        data: address,
+        select: {
+            street: true,
+            village: true,
+            district: true,
+            city: true,
+            province: true,
+            postal_code: true,
+            profile: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    })
 }
 
 const addressUpdateAdmin = async (userId, addressData) => {
@@ -363,10 +562,15 @@ const addressUpdateAdmin = async (userId, addressData) => {
 }
 
 export default {
+    userRegisterAdmin,
     userSearchAdmin,
     userGetByIdAdmin,
     userUpdateAdmin,
+    userDeleteAdmin,
+    profileCreateAdmin,
     profileUpdateAdmin,
+    contactCreateAdmin,
     contactUpdateAdmin,
+    addressCreateAdmin,
     addressUpdateAdmin
 }

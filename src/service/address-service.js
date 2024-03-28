@@ -91,7 +91,7 @@ const getAddress = async (user) => {
     
 }
 
-//* CREATE ADDRESS
+//* UPDATE ADDRESS
 
 const updateAddress = async (user, request) => {
     
