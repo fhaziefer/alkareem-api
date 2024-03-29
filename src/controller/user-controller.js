@@ -64,7 +64,7 @@ const userLogout = async (req, res, next) =>{
 const userSearch = async (req, res, next) => {
     try {
         const request = {
-            query: req.query.search,
+            query: req.query.keyword,
             page: req.query.page,
             size: req.query.size
         }
