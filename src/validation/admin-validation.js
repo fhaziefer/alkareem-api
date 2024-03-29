@@ -13,6 +13,12 @@ const updateUserValidation = Joi.object({
     password: Joi.string().min(8).max(30).optional()
 });
 
+const searchValidation = Joi.object({
+    query: Joi.string().min(1).max(20),
+    page: Joi.number().min(1).positive().default(1),
+    size: Joi.number().min(1).positive().max(100).default(10)
+})
+
 const userIdValidation = Joi.string().min(5).max(50).required()
 
 const createProfileValidation = Joi.object({
@@ -80,6 +86,7 @@ const updateContactValidation = Joi.object({
 export {
     registerUserValidation,
     updateUserValidation,
+    searchValidation,
     userIdValidation,
     createProfileValidation,
     updateProfileValidation,

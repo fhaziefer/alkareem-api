@@ -1,4 +1,4 @@
-import { createAddressValidation, createContactValidation, createProfileValidation, registerUserValidation, updateAddressValidation, updateContactValidation, updateProfileValidation, updateUserValidation, userIdValidation } from "../validation/admin-validation.js"
+import { createAddressValidation, createContactValidation, createProfileValidation, registerUserValidation, searchValidation, updateAddressValidation, updateContactValidation, updateProfileValidation, updateUserValidation, userIdValidation } from "../validation/admin-validation.js"
 import { validate } from "../validation/validation.js"
 import { prismaClient } from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
@@ -34,115 +34,138 @@ const userRegisterAdmin = async (request) => {
 
 const userSearchAdmin = async (request) => {
 
-    const searchQuery = request
+    request = validate(searchValidation, request)
 
-    const user = await prismaClient.user.findMany({
-        where: {
-            AND: {
-                OR: [
-                    {
-                        username: {
+    const searchQuery = request.query
+    const page = request.page
+    const skip = (page - 1) * request.size;
+
+    const filters = {
+        AND: {
+            OR: [
+                {
+                    username: {
+                        contains: searchQuery
+                    }
+                },{
+                    profil: {
+                        name: {
                             contains: searchQuery
                         }
-                    },{
-                        profil: {
-                            name: {
+                    }
+                },{
+                    profil: {
+                        bani: {
+                            bani_name:{
                                 contains: searchQuery
                             }
                         }
-                    },{
-                        profil: {
-                            bani: {
-                                bani_name:{
-                                    contains: searchQuery
-                                }
-                            }
-                        }
-                    },{
-                        profil: {
-                            address: {
-                                village:{
-                                    contains: searchQuery
-                                }
-                            }
-                        }
-                    },{
-                        profil: {
-                            address: {
-                                district:{
-                                    contains: searchQuery
-                                }
-                            }
-                        }
-                    },{
-                        profil: {
-                            address: {
-                                city: {
-                                    contains: searchQuery
-                                }
-                            }
-                        }
-                    },{
-                        profil: {
-                            address: {
-                                province:{
-                                    contains: searchQuery
-                                }
+                    }
+                },{
+                    profil: {
+                        address: {
+                            village:{
+                                contains: searchQuery
                             }
                         }
                     }
-                ]
+                },{
+                    profil: {
+                        address: {
+                            district:{
+                                contains: searchQuery
+                            }
+                        }
+                    }
+                },{
+                    profil: {
+                        address: {
+                            city: {
+                                contains: searchQuery
+                            }
+                        }
+                    }
+                },{
+                    profil: {
+                        address: {
+                            province:{
+                                contains: searchQuery
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+
+    const orderBy = [{
+        profil: {
+            bani: {
+                id: 'asc'
             }
         },
-        orderBy: [{
-            profil: {
-                bani: {
-                    id: 'asc'
-                }
-            },
-            profil: {
-                generasi: {
-                    id: 'asc'
-                }
+        profil: {
+            generasi: {
+                id: 'asc'
             }
-        }],
-        select: {
-            id: true,
-            username: true,
-            profil: {
-                select: {
-                    id: true,
-                    name: true,
-                    alive_status: true,
-                    anak_ke: true,
-                    parent: {
-                        select: {
-                            name: true
-                        }
-                    },
-                    bani: {
-                        select: {
-                            bani_name: true
-                        }
-                    },
-                    generasi: {
-                        select: {
-                            generasi_name: true
-                        }
-                    },
-                    address: {
-                        select: {
-                            village: true,
-                            district: true,
-                            city: true
-                        }
+        }
+    }]
+
+    const select = {
+        id: true,
+        username: true,
+        profil: {
+            select: {
+                id: true,
+                name: true,
+                alive_status: true,
+                anak_ke: true,
+                parent: {
+                    select: {
+                        name: true
+                    }
+                },
+                bani: {
+                    select: {
+                        bani_name: true
+                    }
+                },
+                generasi: {
+                    select: {
+                        generasi_name: true
+                    }
+                },
+                address: {
+                    select: {
+                        village: true,
+                        district: true,
+                        city: true
                     }
                 }
             }
         }
+    }
+
+    const user = await prismaClient.user.findMany({
+        where: filters,
+        orderBy: orderBy,
+        select: select,
+        take: request.size,
+        skip: skip
     })
 
-    return user
+    const totalItems = await prismaClient.user.count({
+        where: filters
+    })
+
+    return {
+        data: user,
+        paging: {
+            page: page,
+            total_item: totalItems,
+            total_page: Math.ceil(totalItems/request.size)
+        }
+    }
 
 }
 

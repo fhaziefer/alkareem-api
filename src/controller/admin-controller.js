@@ -14,10 +14,15 @@ const userRegisterAdmin = async (req, res, next) => {
 
 const userSearchAdmin = async (req, res, next) => {
     try {
-        const request = req.query.keyword
+        const request = {
+            query: req.query.keyword,
+            page: req.query.page,
+            size: req.query.size
+        }
         const result = await adminService.userSearchAdmin(request)
         res.status(200).json({
-            data: result
+            data: result.data,
+            paging: result.paging
         })
     } catch (e) {
         next(e)
