@@ -63,10 +63,15 @@ const userLogout = async (req, res, next) =>{
 
 const userSearch = async (req, res, next) => {
     try {
-        const request = req.query.search
+        const request = {
+            query: req.query.search,
+            page: req.query.page,
+            size: req.query.size
+        }
         const result = await userService.userSearch(request)
         res.status(200).json({
-            data: result
+            data: result.data,
+            paging: result.paging
         })
     } catch (e) {
         next(e)
