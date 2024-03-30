@@ -68,7 +68,12 @@ const userLogin = async (request) => {
         select: {
             id: true,
             username: true,
-            token: true
+            token: true,
+            role: {
+                select: {
+                    role: true
+                }
+            }
         }
        })
 
