@@ -13,9 +13,6 @@ adminRouter.use(cors());
 
 adminRouter.use(authAdminMiddleware);
 
-//* STATIC FOLDER FOR ADMIN ROLE
-adminRouter.use('/', express.static('public'));
-
 //* UPLOAD FILE
 
 adminRouter.use(avatarUpload);

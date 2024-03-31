@@ -20,12 +20,6 @@ userRouter.use(authMiddleware);
 
 //!--------------
 
-//* STATIC FILE
-
-userRouter.use('/', express.static('public'));
-
-//*--------------
-
 //* UPLOAD FILE
 
 userRouter.use(avatarUpload);
