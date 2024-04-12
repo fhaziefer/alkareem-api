@@ -1,4 +1,4 @@
-import { getUserValidation, loginUserValidation, logoutUserValidation, registerUserValidation, searchValidation, updateUserValidation } from "../validation/user-validation.js"
+import { getUserValidation, loginUserValidation, logoutUserValidation, registerUserValidation, searchValidation, getAllValidation, updateUserValidation } from "../validation/user-validation.js"
 import { validate } from "../validation/validation.js"
 import {prismaClient} from "../application/database.js"
 import { ResponseError } from "../error/response-error.js";
@@ -334,6 +334,110 @@ const userSearch = async (request) => {
 
 }
 
+//* UNTUK SEARCH USER BY QUERY
+
+const userGetAll = async (request) => {
+
+    request = validate(getAllValidation, request)
+
+    const page = request.page
+    const skip = (page - 1) * request.size;
+
+
+    const select = {
+        id: true,
+        username: true,
+        profil: {
+            select:{
+                name: true,
+                avatar: true,
+                husband: {
+                    select: {
+                        name: true
+                    }
+                },
+                wife: {
+                    select: {
+                        name: true
+                    }
+                },
+                parent: {
+                    select: {
+                        name: true
+                    }
+                },
+                generasi: {
+                    select: {
+                        generasi_name: true
+                    }
+                },
+                bani: {
+                    select: {
+                        bani_name: true
+                    }
+                },
+                contact: {
+                    select: {
+                        phone: true,
+                        instagram: true,
+                        email: true
+                    }
+                },
+                address: {
+                    select: {
+                        street: true,
+                        village: true,
+                        district: true,
+                        city: true,
+                        province: true
+                    }
+                }
+            }
+        }
+    }
+
+    const user = await prismaClient.user.findMany({
+        where: {
+            AND: {
+                role: "USER"
+            }
+        },
+        orderBy: [{
+            profil: {
+                bani: {
+                    id: 'asc'
+                }
+            },
+            profil: {
+                generasi: {
+                    id: 'asc'
+                }
+            }
+        }],
+        select: select,
+        take: request.size,
+        skip: skip
+    })
+
+    const totalItems = await prismaClient.user.count({
+        where: {
+            AND: {
+                role: "USER"
+            }
+        }
+    })
+
+    return {
+        data: user,
+        paging: {
+            page: page,
+            total_item: totalItems,
+            total_page: Math.ceil(totalItems/request.size)
+        }
+    }
+
+}
+
 //* UNTUK GET USER BY ID
 
 const userGetById = async (request) => {
@@ -350,6 +454,7 @@ const userGetById = async (request) => {
                 select:{
                     name: true,
                     avatar: true,
+                    gender: true,
                     husband: {
                         select: {
                             name: true
@@ -396,7 +501,8 @@ const userGetById = async (request) => {
                             village: true,
                             district: true,
                             city: true,
-                            province: true
+                            province: true,
+                            postal_code: true
                         }
                     }
                 }
@@ -420,5 +526,6 @@ export default {
     userUpdate,
     userLogout,
     userSearch,
+    userGetAll,
     userGetById
 }

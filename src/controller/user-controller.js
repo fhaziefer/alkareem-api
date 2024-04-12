@@ -78,6 +78,22 @@ const userSearch = async (req, res, next) => {
     }
 }
 
+const userGetAll = async (req, res, next) => {
+    try {
+        const request = {
+            page: req.query.page,
+            size: req.query.size
+        }
+        const result = await userService.userGetAll(request)
+        res.status(200).json({
+            data: result.data,
+            paging: result.paging
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const userGetById = async (req, res, next) => {
     try {
         const request = req.params.id
@@ -97,5 +113,6 @@ export default {
     userUpdate,
     userLogout,
     userSearch,
+    userGetAll,
     userGetById
 }
