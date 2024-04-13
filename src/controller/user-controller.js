@@ -106,6 +106,18 @@ const userGetById = async (req, res, next) => {
     }
 }
 
+const userGetChildrenById = async (req, res, next) => {
+    try {
+        const request = req.params.id
+        const result = await userService.userGetChildrenById(request)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegister,
     userLogin,
@@ -114,5 +126,6 @@ export default {
     userLogout,
     userSearch,
     userGetAll,
-    userGetById
+    userGetById,
+    userGetChildrenById
 }

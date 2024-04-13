@@ -91,6 +91,7 @@ model Profile {
   pendidikan   String?
   alive_status Boolean   @default(true)
   avatar       String?
+  bio String?
 
   userId         String  @unique @map("user_id")
   baniId         Int     @default(7) @map("bani_id")
