@@ -471,6 +471,7 @@ const userGetById = async (request) => {
           alive_status: true,
           status: true,
           bio: true,
+          birthday: true,
           husband: {
             select: {
               id: true,
