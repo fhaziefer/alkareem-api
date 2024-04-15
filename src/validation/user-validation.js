@@ -22,7 +22,8 @@ const updateUserValidation = Joi.object({
 });
 
 const searchValidation = Joi.object({
-    query: Joi.string().min(1).max(20),
+    query: Joi.string().min(1).max(20).optional(),
+    bani: Joi.string().min(1).max(20).optional(),
     page: Joi.number().min(1).positive().default(1),
     size: Joi.number().min(1).positive().max(100).default(10)
 })

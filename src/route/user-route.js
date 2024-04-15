@@ -31,6 +31,7 @@ userRouter.use(avatarUpload);
 userRouter.get('/user/current', userController.userGet);
 userRouter.get('/users', userController.userGetAll);
 userRouter.get('/user/search', userController.userSearch);
+userRouter.get('/user/search/bani', userController.userSearchByBani);
 userRouter.get('/user/:id', userController.userGetById);
 userRouter.get('/user/children/:id', userController.userGetChildrenById);
 userRouter.patch('/user/current', userController.userUpdate);

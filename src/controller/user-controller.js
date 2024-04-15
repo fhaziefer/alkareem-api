@@ -78,6 +78,24 @@ const userSearch = async (req, res, next) => {
     }
 }
 
+const userSearchByBani = async (req, res, next) => {
+    try {
+        const request = {
+            query: req.query.keyword,
+            bani: req.query.bani,
+            page: req.query.page,
+            size: req.query.size
+        }
+        const result = await userService.userSearchByBani(request)
+        res.status(200).json({
+            data: result.data,
+            paging: result.paging
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const userGetAll = async (req, res, next) => {
     try {
         const request = {
@@ -125,6 +143,7 @@ export default {
     userUpdate,
     userLogout,
     userSearch,
+    userSearchByBani,
     userGetAll,
     userGetById,
     userGetChildrenById

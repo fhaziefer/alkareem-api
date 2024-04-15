@@ -344,7 +344,171 @@ const userSearch = async (request) => {
   };
 };
 
-//* UNTUK SEARCH USER BY QUERY
+const userSearchByBani = async (request) => {
+  request = validate(searchValidation, request);
+
+  const searchQuery = request.query;
+  const baniQuery = request.bani;
+  const page = request.page;
+  const skip = (page - 1) * request.size;
+
+  const filters = [
+    {
+      username: {
+        contains: searchQuery,
+      },
+    },
+    {
+      profil: {
+        name: {
+          contains: searchQuery,
+        },
+      },
+    },
+    
+    {
+      profil: {
+        address: {
+          village: {
+            contains: searchQuery,
+          },
+        },
+      },
+    },
+    {
+      profil: {
+        address: {
+          district: {
+            contains: searchQuery,
+          },
+        },
+      },
+    },
+    {
+      profil: {
+        address: {
+          city: {
+            contains: searchQuery,
+          },
+        },
+      },
+    },
+    {
+      profil: {
+        address: {
+          province: {
+            contains: searchQuery,
+          },
+        },
+      },
+    },
+  ];
+
+  const select = {
+    id: true,
+    username: true,
+    profil: {
+      select: {
+        name: true,
+        avatar: true,
+        husband: {
+          select: {
+            name: true,
+          },
+        },
+        wife: {
+          select: {
+            name: true,
+          },
+        },
+        parent: {
+          select: {
+            name: true,
+          },
+        },
+        generasi: {
+          select: {
+            generasi_name: true,
+          },
+        },
+        bani: {
+          select: {
+            bani_name: true,
+          },
+        },
+        contact: {
+          select: {
+            phone: true,
+            instagram: true,
+            email: true,
+          },
+        },
+        address: {
+          select: {
+            street: true,
+            village: true,
+            district: true,
+            city: true,
+            province: true,
+          },
+        },
+      },
+    },
+  };
+
+  const user = await prismaClient.user.findMany({
+    where: {
+      AND: {
+        role: "USER",
+        OR: filters,
+        profil: {
+          bani: {
+            bani_name: {
+              contains: baniQuery,
+            },
+          },
+        },
+      },
+    },
+    orderBy: [
+      {
+        profil: {
+          bani: {
+            id: "asc",
+          },
+        },
+        profil: {
+          generasi: {
+            id: "asc",
+          },
+        },
+      },
+    ],
+    select: select,
+    take: request.size,
+    skip: skip,
+  });
+
+  const totalItems = await prismaClient.user.count({
+    where: {
+      AND: {
+        role: "USER",
+        OR: filters,
+      },
+    },
+  });
+
+  return {
+    data: user,
+    paging: {
+      page: page,
+      total_item: totalItems,
+      total_page: Math.ceil(totalItems / request.size),
+    },
+  };
+};
+
+//* UNTUK GET ALL USER BY QUERY
 
 const userGetAll = async (request) => {
   request = validate(getAllValidation, request);
@@ -594,6 +758,7 @@ export default {
   userUpdate,
   userLogout,
   userSearch,
+  userSearchByBani,
   userGetAll,
   userGetById,
   userGetChildrenById,
