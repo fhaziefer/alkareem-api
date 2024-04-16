@@ -101,8 +101,72 @@ const userGet = async (username) => {
       username: true,
       profil: {
         select: {
+          id: true,
           name: true,
           avatar: true,
+          gender: true,
+          alive_status: true,
+          status: true,
+          bio: true,
+          birthday: true,
+          husband: {
+            select: {
+              id: true,
+              name: true,
+              alive_status: true,
+            },
+          },
+          wife: {
+            select: {
+              id: true,
+              name: true,
+              alive_status: true,
+            },
+          },
+          parent: {
+            select: {
+              id: true,
+              name: true,
+              alive_status: true,
+            },
+          },
+          children: {
+            select: {
+              anak_ke: true,
+              name: true,
+              alive_status: true,
+            },
+            orderBy: {
+              anak_ke: "asc",
+            },
+          },
+          generasi: {
+            select: {
+              generasi_name: true,
+            },
+          },
+          bani: {
+            select: {
+              bani_name: true,
+            },
+          },
+          contact: {
+            select: {
+              phone: true,
+              instagram: true,
+              email: true,
+            },
+          },
+          address: {
+            select: {
+              street: true,
+              village: true,
+              district: true,
+              city: true,
+              province: true,
+              postal_code: true,
+            },
+          },
         },
       },
     },
