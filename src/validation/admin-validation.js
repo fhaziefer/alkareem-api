@@ -2,14 +2,14 @@ import Joi from 'joi'
 
 const registerUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).alphanum().required(),
+    username: Joi.string().min(3).max(30).pattern(/\w[\w.-]{2,17}\w/).required(),
     password: Joi.string().min(8).max(30).required(),
     role: Joi.string().optional()
 });
 
 const updateUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).alphanum().optional(),
+    username: Joi.string().min(3).max(30).pattern(/\w[\w.-]{2,17}\w/).required(),
     password: Joi.string().min(8).max(30).optional()
 });
 
