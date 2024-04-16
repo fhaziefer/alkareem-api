@@ -1,3 +1,4 @@
+import { logger } from "../application/logging.js";
 import userService from "../service/user-service.js";
 
 const userRegister = async (req, res, next) => {
@@ -136,6 +137,18 @@ const userGetChildrenById = async (req, res, next) => {
     }
 }
 
+const userGetTotal = async (req, res, next) => {
+    try {
+        const result = await userService.userGetTotal()
+        res.status(200).json({
+            message: 'Data jumlah keluarga besar bani KH. Abdul Karim Lirboyo',
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegister,
     userLogin,
@@ -146,5 +159,6 @@ export default {
     userSearchByBani,
     userGetAll,
     userGetById,
-    userGetChildrenById
+    userGetChildrenById,
+    userGetTotal
 }

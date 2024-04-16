@@ -34,6 +34,7 @@ userRouter.get('/user/search', userController.userSearch);
 userRouter.get('/user/search/bani', userController.userSearchByBani);
 userRouter.get('/user/:id', userController.userGetById);
 userRouter.get('/user/children/:id', userController.userGetChildrenById);
+userRouter.get('/users/total', userController.userGetTotal);
 userRouter.patch('/user/current', userController.userUpdate);
 userRouter.delete('/logout', userController.userLogout);
 

@@ -429,7 +429,7 @@ const userSearchByBani = async (request) => {
         },
       },
     },
-    
+
     {
       profil: {
         address: {
@@ -815,6 +815,151 @@ const userGetChildrenById = async (request) => {
   return user;
 };
 
+const userGetTotal = async () => {
+  const totalItems = await prismaClient.user.count({
+    where: {
+      role: "USER",
+    },
+  });
+
+  const totalFamily = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+      },
+    },
+  });
+
+  const totalSingle = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        alive_status: true,
+        status: "SINGLE",
+      },
+    },
+  });
+
+  const totalMale = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        gender: 'MALE'
+      },
+    },
+  });
+
+  const totalFemale = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        gender: 'FEMALE'
+      },
+    },
+  });
+
+  const totalAlive = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        alive_status: true,
+      },
+    },
+  });
+
+  const totalDeath = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        alive_status: false,
+      },
+    },
+  });
+
+  const totalHannah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Hannah",
+        },
+      },
+    },
+  });
+
+  const totalSalamah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Salamah",
+        },
+      },
+    },
+  });
+
+  const totalAisyah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Aisyah",
+        },
+      },
+    },
+  });
+
+  const totalMaryam = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Maryam",
+        },
+      },
+    },
+  });
+
+  const totalZainab = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Zainab",
+        },
+      },
+    },
+  });
+
+  const totalQomariyah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        bani: {
+          bani_name: "Bani Qomariyah"
+        }
+      }
+    },
+  });
+
+  return {
+    totalUser: totalItems,
+    totalFamily: totalFamily,
+    totalSingle: totalSingle,
+    totalAlive: totalAlive,
+    totalDeath: totalDeath,
+    totalMale: totalMale,
+    totalFemale: totalFemale,
+    totalHannah: totalHannah,
+    totalSalamah: totalSalamah,
+    totalAisyah: totalAisyah,
+    totalMaryam: totalMaryam,
+    totalZainab: totalZainab,
+    totalQomariyah: totalQomariyah,
+  };
+};
+
 export default {
   userRegister,
   userLogin,
@@ -826,4 +971,5 @@ export default {
   userGetAll,
   userGetById,
   userGetChildrenById,
+  userGetTotal,
 };
