@@ -1,14 +1,16 @@
 import Joi from 'joi'
 
+const pattern = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/;
+
 const registerUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(/\w[\w.-]{2,17}\w/).required(),
+    username: Joi.string().min(3).max(30).pattern(pattern).required(),
     password: Joi.string().min(8).max(30).required()
 });
 
 const loginUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(/\w[\w.-]{2,17}\w/).required(),
+    username: Joi.string().min(3).max(30).pattern(pattern).required(),
     password: Joi.string().min(8).max(30).required()
 });
 
@@ -18,6 +20,7 @@ const logoutUserValidation = Joi.string().max(100).required()
 
 const updateUserValidation = Joi.object({
     id: Joi.string().optional(),
+    username: Joi.string().min(3).max(30).pattern(pattern).optional(),
     password: Joi.string().min(8).max(30).optional()
 });
 

@@ -25,7 +25,7 @@ const userRegister = async (request) => {
   });
 
   if (countUser === 1) {
-    throw new ResponseError(400, "Username is already exist");
+    throw new ResponseError(400, "Username sudah digunakan");
   }
 
   user.password = await bcrypt.hash(user.password, 10);
@@ -182,12 +182,12 @@ const userGet = async (username) => {
 //* UNTUK UPDATE DATA USER
 //! SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
-const userUpdate = async (request) => {
-  const user = validate(updateUserValidation, request);
+const userUpdate = async (user, request) => {
+  const userVal = validate(updateUserValidation, request);
 
   const totalUserInDatabase = await prismaClient.user.count({
     where: {
-      username: user.username,
+      id: user.id,
     },
   });
 
@@ -195,15 +195,29 @@ const userUpdate = async (request) => {
     throw new ResponseError(404, "User is not found");
   }
 
+  const countUser = await prismaClient.user.count({
+    where: {
+      username: userVal.username,
+    },
+  });
+
+  if (countUser === 1) {
+    throw new ResponseError(400, "Username sudah digunakan");
+  }
+
   const data = {};
 
-  if (user.password) {
-    data.password = await bcrypt.hash(user.password, 10);
+  if (userVal.password) {
+    data.password = await bcrypt.hash(userVal.password, 10);
+  }
+
+  if (userVal.username) {
+    data.username = userVal.username
   }
 
   return prismaClient.user.update({
     where: {
-      username: user.username,
+      id: user.id,
     },
     data: data,
     select: {
@@ -845,7 +859,7 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        gender: 'MALE'
+        gender: "MALE",
       },
     },
   });
@@ -854,7 +868,7 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        gender: 'FEMALE'
+        gender: "FEMALE",
       },
     },
   });
@@ -937,9 +951,9 @@ const userGetTotal = async () => {
       role: "USER",
       profil: {
         bani: {
-          bani_name: "Bani Qomariyah"
-        }
-      }
+          bani_name: "Bani Qomariyah",
+        },
+      },
     },
   });
 
