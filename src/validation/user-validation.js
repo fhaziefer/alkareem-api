@@ -1,16 +1,24 @@
-import Joi from 'joi'
-
-const pattern = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/;
+import Joi from 'joi';
 
 const registerUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(pattern).required(),
-    password: Joi.string().min(8).max(30).required()
+    username: Joi.string()
+        .min(3)
+        .max(30)
+        .pattern(/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/)
+        .required(),
+    password: Joi.string().min(8).max(30).required(),
+    role: Joi.string().min(8).max(30).optional(),
 });
+
 
 const loginUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(pattern).required(),
+    username: Joi.string()
+        .min(3)
+        .max(30)
+        .pattern(/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/)
+        .required(),
     password: Joi.string().min(8).max(30).required()
 });
 
@@ -20,7 +28,11 @@ const logoutUserValidation = Joi.string().max(100).required()
 
 const updateUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(pattern).optional(),
+    username: Joi.string()
+        .min(3)
+        .max(30)
+        .pattern(/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/)
+        .optional(),
     password: Joi.string().min(8).max(30).optional()
 });
 
