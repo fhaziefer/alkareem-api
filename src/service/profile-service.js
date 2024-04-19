@@ -162,7 +162,8 @@ const updateProfile = async (user, request) => {
             husbandId: profile.husbandId,
             parentId: profile.parentId,
             generasiId: profile.generasiId,
-            pendidikan: profile.pendidikan
+            pendidikan: profile.pendidikan,
+            bio: profile.bio
         },
         select: {
             name: true,
@@ -172,6 +173,7 @@ const updateProfile = async (user, request) => {
             alive_status: true,
             status: true,
             avatar: true,
+            bio: true,
             user: {
                 select: {
                     username: true
