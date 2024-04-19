@@ -13,7 +13,8 @@ const createProfileValidation = Joi.object({
     parentId: Joi.string().min(1).max(2).optional(),
     husbandId: Joi.string().min(1).max(2).optional(),
     subscriptionId: Joi.string().min(1).max(2).optional(),
-    status: Joi.string().min(3).max(10).optional()
+    status: Joi.string().min(3).max(10).optional(),
+    bio: Joi.string().max(100).optional()
 });
 
 const updateProfileValidation = Joi.object({
@@ -29,7 +30,8 @@ const updateProfileValidation = Joi.object({
     parentId: Joi.string().min(1).max(50).optional(),
     husbandId: Joi.string().min(1).max(2).optional(),
     subscriptionId: Joi.string().min(1).max(2).optional(),
-    status: Joi.string().min(3).max(10).optional()
+    status: Joi.string().min(3).max(10).optional(),
+    bio: Joi.string().max(100).optional()
 });
 
 export {
