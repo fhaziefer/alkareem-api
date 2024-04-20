@@ -112,7 +112,7 @@ const updateAddress = async (user, request) => {
     })
 
     if (countAddress !== 1) {
-        throw new ResponseError(400, "Address is not found")
+        throw new ResponseError(403, "Address is not found")
     }
 
     return prismaClient.address.update({
