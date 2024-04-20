@@ -1,7 +1,7 @@
 import express from 'express';
 import { authAdminMiddleware } from '../middleware/admin-auth-middleware.js';
 import adminController from '../controller/admin-controller.js';
-import { avatarUpload } from '../middleware/image-upload-middleware.js';
+import { adminAvatarUpload } from '../middleware/image-upload-middleware.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
@@ -12,10 +12,6 @@ adminRouter.use(bodyParser.json());
 adminRouter.use(cors());
 
 adminRouter.use(authAdminMiddleware);
-
-//* UPLOAD FILE
-
-adminRouter.use(avatarUpload);
 
 //* ENDPOINT FOR ADMIN ROLE
 adminRouter.post('/admin/user', adminController.userRegisterAdmin);

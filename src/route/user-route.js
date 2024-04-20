@@ -4,7 +4,6 @@ import profileController from '../controller/profile-controller.js';
 import contactController from '../controller/contact-controller.js';
 import addressController from '../controller/address-controller.js';
 import { authMiddleware } from '../middleware/auth-middleware.js';
-import { avatarUpload } from '../middleware/image-upload-middleware.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 
@@ -19,10 +18,6 @@ userRouter.use(cors());
 userRouter.use(authMiddleware);
 
 //!--------------
-
-//* UPLOAD FILE
-
-userRouter.use(avatarUpload);
 
 //*--------------
 

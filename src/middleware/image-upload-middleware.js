@@ -1,6 +1,5 @@
 import multer from 'multer';
 import {v4 as uuid} from 'uuid';
-import { ResponseError } from "../error/response-error.js";
 
 export const TYPE_IMAGE = {
     "image/jpg": "jpg",
@@ -38,6 +37,13 @@ const avatarUpload = multer({
     limits: {fileSize: maxSize}
 }).single('avatar');
 
+const adminAvatarUpload = multer({
+    storage: avatarStorage, 
+    fileFilter: fileFilter, 
+    limits: {fileSize: maxSize}
+}).single('avatar');
+
 export {
+    adminAvatarUpload,
     avatarUpload
 }
