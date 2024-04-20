@@ -24,7 +24,7 @@ const createContact = async (user, request) => {
     })
 
     if (countContact === 1) {
-        throw new ResponseError(400, "Contact is already exist")
+        throw new ResponseError(403, "Contact is already exist")
     }
 
     contact.profileId = profileId
@@ -64,7 +64,7 @@ const getContact = async (user) => {
     })
 
     if (countContact !== 1) {
-        throw new ResponseError(400, "Contact is not found")
+        throw new ResponseError(403, "Contact is not found")
     }
 
     return prismaClient.contact.findUnique({
@@ -104,7 +104,7 @@ const updateContact = async (user,request) => {
     })
 
     if (countContact !== 1) {
-        throw new ResponseError(400, "Contact is not found")
+        throw new ResponseError(403, "Contact is not found")
     }
 
     return prismaClient.contact.update({
