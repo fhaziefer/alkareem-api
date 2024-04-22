@@ -38,6 +38,9 @@ userRouter.delete('/logout', userController.userLogout);
 //* PROFILE ROUTE
 
 userRouter.post('/user/profile', profileController.createProfile);
+userRouter.post('/user/profile/bani', profileController.addBaniProfile);
+userRouter.get('/user/profile/bani/current', profileController.getBaniProfile);
+userRouter.delete('/user/profile/bani/current', profileController.deleteBaniProfile);
 userRouter.patch('/user/profile/avatar/current', profileController.uploadAvatarProfile);
 userRouter.patch('/user/profile/avatar/current/remove', profileController.removeAvatarProfile);
 userRouter.get('/user/profile/current', profileController.getProfile);

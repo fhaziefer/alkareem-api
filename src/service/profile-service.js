@@ -1,10 +1,12 @@
 import {
   createProfileValidation,
+  profileBaniValidation,
   updateProfileValidation,
 } from "../validation/profile-validation.js";
 import { validate } from "../validation/validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
+import { logger } from "../application/logging.js";
 
 //* UNTUK MEMBUAT PROFILE UNTUK USER
 
@@ -309,6 +311,121 @@ const deleteProfile = async (user) => {
   });
 };
 
+//* CREATE BANI PROFILE
+
+const addBaniProfile = async (user, request) => {
+  const bani = validate(profileBaniValidation, request);
+
+  const profile = await prismaClient.profile.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!profile) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const baniOnDatabase = await prismaClient.profileBani.count({
+    where: {
+      AND: [
+        {
+          profileId: profile.id,
+        },
+        {
+          baniId: bani.baniId,
+        },
+      ],
+    },
+  })
+
+  if (baniOnDatabase === 1) {
+    throw new ResponseError(404, "Bani is already exist");
+  }
+
+  bani.profileId = profile.id;
+
+  return prismaClient.profileBani.create({
+    data: bani,
+    select: {
+      bani: {
+        select: {
+          bani_name: true,
+        },
+      },
+    },
+  });
+};
+
+//* GET BANI PROFILE
+
+const getBaniProfile = async (user) => {
+  const profile = await prismaClient.profile.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!profile) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const bani = await prismaClient.profileBani.findMany({
+    where: {
+      profileId: profile.id,
+    },
+    include: {
+      profile: true,
+      profile: {select: {name:true}},
+      bani: true,
+    }
+  });
+
+  return bani;
+};
+
+//* DELETE BANI PROFILE
+
+const deleteBaniProfile = async (user, request) => {
+  const bani = validate(profileBaniValidation, request);
+
+  const profile = await prismaClient.profile.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!profile) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const profileBani = await prismaClient.profileBani.count({
+    where: {
+      AND: [
+        {
+          profileId: profile.id,
+        },
+        {
+          baniId: bani.baniId,
+        },
+      ],
+    },
+  });
+
+  if (profileBani !== 1) {
+    throw new ResponseError(404, "Bani is not found");
+  }
+
+  return prismaClient.profileBani.delete({
+    where: {
+      profileId_baniId: {
+        profileId: profile.id,
+        baniId: bani.baniId,
+      },
+    },
+  });
+};
+
 export default {
   createProfile,
   getProfile,
@@ -316,4 +433,7 @@ export default {
   uploadAvatarProfile,
   removeAvatarProfile,
   deleteProfile,
+  addBaniProfile,
+  getBaniProfile,
+  deleteBaniProfile,
 };

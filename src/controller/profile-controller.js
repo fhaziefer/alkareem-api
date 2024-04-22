@@ -101,11 +101,54 @@ const deleteProfile = async (req, res, next) => {
     }
 }
 
+const addBaniProfile = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const request = req.body
+
+        const result = await profileService.addBaniProfile(user, request);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const getBaniProfile = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const result = await profileService.getBaniProfile(user);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e);
+    }
+}
+
+const deleteBaniProfile = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const request = req.body
+
+        await profileService.deleteBaniProfile(user, request);
+        res.status(200).json({
+            data: "Bani is deleted successfully" 
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     createProfile,
     getProfile,
     updateProfile,
     uploadAvatarProfile,
     removeAvatarProfile,
-    deleteProfile
+    deleteProfile,
+    addBaniProfile,
+    getBaniProfile,
+    deleteBaniProfile
 }
