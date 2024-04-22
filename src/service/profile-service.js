@@ -1,4 +1,5 @@
 import {
+  addBaniValidation,
   createProfileValidation,
   profileBaniValidation,
   updateProfileValidation,
@@ -314,7 +315,7 @@ const deleteProfile = async (user) => {
 //* CREATE BANI PROFILE
 
 const addBaniProfile = async (user, request) => {
-  const bani = validate(profileBaniValidation, request);
+  const bani = validate(addBaniValidation, request);
 
   const profile = await prismaClient.profile.findFirst({
     where: {
@@ -411,7 +412,7 @@ const deleteBaniProfile = async (user, request) => {
           profileId: profile.id,
         },
         {
-          baniId: bani.baniId,
+          baniId: bani,
         },
       ],
     },
@@ -425,7 +426,7 @@ const deleteBaniProfile = async (user, request) => {
     where: {
       profileId_baniId: {
         profileId: profile.id,
-        baniId: bani.baniId,
+        baniId: bani,
       },
     },
   });

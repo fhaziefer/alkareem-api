@@ -36,13 +36,16 @@ const updateProfileValidation = Joi.object({
     bio: Joi.string().max(100).optional()
 });
 
-const profileBaniValidation = Joi.object({
+const addBaniValidation = Joi.object({
     baniId: Joi.number().min(1).optional(),
-    profileId: Joi.string().min(1).max(50).optional(),
+    profileId: Joi.string().min(1).max(50).optional()
 })
+
+const profileBaniValidation = Joi.number().min(1).optional()
 
 export {
     createProfileValidation,
     updateProfileValidation,
+    addBaniValidation,
     profileBaniValidation
 }
