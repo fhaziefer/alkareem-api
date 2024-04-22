@@ -114,10 +114,11 @@ const userGet = async (username) => {
             select: {
               bani: {
                 select: {
+                  id: true,
                   bani_name: true
                 }
               }
-            }
+            }, orderBy: [{baniId: "asc"}]
           }
         },
       },
@@ -608,7 +609,17 @@ const userGetById = async (request) => {
           children: { orderBy: { anak_ke: "asc" } },
           address: true,
           contact: true,
-          profileBani: true
+          profileBani: true,
+          profileBani: {
+            select: {
+              bani: {
+                select: {
+                  id: true,
+                  bani_name: true
+                }
+              }
+            }, orderBy: [{baniId: "asc"}]
+          }
         },
       },
     }

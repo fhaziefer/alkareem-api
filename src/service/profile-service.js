@@ -378,7 +378,12 @@ const getBaniProfile = async (user) => {
       profile: true,
       profile: {select: {name:true}},
       bani: true,
-    }
+    },
+    orderBy: [
+      {
+        baniId: "asc"
+      }
+    ]
   });
 
   return bani;
