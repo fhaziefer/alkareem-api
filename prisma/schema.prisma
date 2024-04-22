@@ -13,8 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// schema.prisma
-
 enum Role {
   USER
   ADMIN
@@ -87,6 +85,7 @@ model Profile {
   name         String
   gender       Gender    @default(UNKNOWN)
   anak_ke      Int?
+  istri_ke     Int?
   birthday     DateTime? @db.Date
   pendidikan   String?
   alive_status Boolean   @default(true)
@@ -96,8 +95,8 @@ model Profile {
   userId         String  @unique @map("user_id")
   baniId         Int     @default(7) @map("bani_id")
   generasiId     Int     @default(10) @map("generasi_id")
+  husbandId      String? @map("husband_id")
   parentId       String? @map("parent_id")
-  husbandId      String? @unique @map("husband_id")
   subscriptionId String  @default("FREE") @map("subsctiption_id")
 
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -106,11 +105,11 @@ model Profile {
   status      Status       @default(UNKNOWN)
   subcription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 
+  husband      Profile?     @relation("WifeHusband", fields: [husbandId], references: [id], onDelete: SetNull)
+  wives        Profile[]    @relation("WifeHusband")
+
   parent   Profile?  @relation("ParentChildren", fields: [parentId], references: [id], onDelete: SetNull)
   children Profile[] @relation("ParentChildren")
-
-  husband Profile? @relation("Partner", fields: [husbandId], references: [id], onDelete: SetNull)
-  wife    Profile? @relation("Partner")
 
   address Address?
   contact Contact?

@@ -116,11 +116,15 @@ const userGet = async (username) => {
               alive_status: true,
             },
           },
-          wife: {
+          wives: {
             select: {
               id: true,
+              istri_ke: true,
               name: true,
               alive_status: true,
+            },
+            orderBy: {
+              istri_ke: "asc",
             },
           },
           parent: {
@@ -212,7 +216,7 @@ const userUpdate = async (user, request) => {
   }
 
   if (userVal.username) {
-    data.username = userVal.username
+    data.username = userVal.username;
   }
 
   return prismaClient.user.update({
@@ -337,9 +341,15 @@ const userSearch = async (request) => {
             name: true,
           },
         },
-        wife: {
+        wives: {
           select: {
+            id: true,
+            istri_ke: true,
             name: true,
+            alive_status: true,
+          },
+          orderBy: {
+            istri_ke: "asc",
           },
         },
         parent: {
@@ -494,9 +504,15 @@ const userSearchByBani = async (request) => {
             name: true,
           },
         },
-        wife: {
+        wives: {
           select: {
+            id: true,
+            istri_ke: true,
             name: true,
+            alive_status: true,
+          },
+          orderBy: {
+            istri_ke: "asc",
           },
         },
         parent: {
@@ -607,10 +623,15 @@ const userGetAll = async (request) => {
             name: true,
           },
         },
-        wife: {
+        wives: {
           select: {
+            id: true,
+            istri_ke: true,
             name: true,
             alive_status: true,
+          },
+          orderBy: {
+            istri_ke: "asc",
           },
         },
         parent: {
@@ -721,11 +742,15 @@ const userGetById = async (request) => {
               alive_status: true,
             },
           },
-          wife: {
+          wives: {
             select: {
               id: true,
               name: true,
+              istri_ke: true,
               alive_status: true,
+            },
+            orderBy: {
+              istri_ke: "asc",
             },
           },
           parent: {
@@ -802,11 +827,15 @@ const userGetChildrenById = async (request) => {
           alive_status: true,
         },
       },
-      wife: {
+      wives: {
         select: {
           id: true,
+          istri_ke: true,
           name: true,
           alive_status: true,
+        },
+        orderBy: {
+          istri_ke: "asc",
         },
       },
       children: {
