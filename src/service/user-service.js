@@ -10,8 +10,8 @@ import {
 import { validate } from "../validation/validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
+import bcrypt from "bcrypt";
 
 //* UNTUK REGISTRASI USER BARU
 
@@ -96,81 +96,19 @@ const userGet = async (username) => {
     where: {
       username: username,
     },
-    select: {
-      id: true,
-      username: true,
+    include: {
+      profil: true,
       profil: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
-          gender: true,
-          alive_status: true,
-          status: true,
-          bio: true,
-          birthday: true,
-          husband: {
-            select: {
-              id: true,
-              name: true,
-              alive_status: true,
-            },
-          },
-          wives: {
-            select: {
-              id: true,
-              istri_ke: true,
-              name: true,
-              alive_status: true,
-            },
-            orderBy: {
-              istri_ke: "asc",
-            },
-          },
-          parent: {
-            select: {
-              id: true,
-              name: true,
-              alive_status: true,
-            },
-          },
-          children: {
-            select: {
-              anak_ke: true,
-              name: true,
-              alive_status: true,
-            },
-            orderBy: {
-              anak_ke: "asc",
-            },
-          },
-          generasi: {
-            select: {
-              generasi_name: true,
-            },
-          },
-          bani: {
-            select: {
-              bani_name: true,
-            },
-          },
-          contact: {
-            select: {
-              phone: true,
-              instagram: true,
-              email: true,
-            },
-          },
-          address: {
-            select: {
-              street: true,
-              village: true,
-              district: true,
-              city: true,
-              province: true,
-              postal_code: true,
-            },
-          },
+        include: {
+          bani: true,
+          generasi: true,
+          subcription: true,
+          parent: true,
+          husband: true,
+          wives: { orderBy: { istri_ke: "asc" } },
+          children: { orderBy: { anak_ke: "asc" } },
+          address: true,
+          contact: true,
         },
       },
     },
@@ -184,7 +122,6 @@ const userGet = async (username) => {
 };
 
 //* UNTUK UPDATE DATA USER
-//! SEMENTARA HANYA BISA UPDATE PASSWORD DOANG
 
 const userUpdate = async (user, request) => {
   const userVal = validate(updateUserValidation, request);
@@ -334,53 +271,13 @@ const userSearch = async (request) => {
     username: true,
     profil: {
       select: {
+        id: true,
         name: true,
+        alive_status: true,
         avatar: true,
-        husband: {
-          select: {
-            name: true,
-          },
-        },
-        wives: {
-          select: {
-            id: true,
-            istri_ke: true,
-            name: true,
-            alive_status: true,
-          },
-          orderBy: {
-            istri_ke: "asc",
-          },
-        },
-        parent: {
-          select: {
-            name: true,
-          },
-        },
-        generasi: {
-          select: {
-            generasi_name: true,
-          },
-        },
         bani: {
           select: {
             bani_name: true,
-          },
-        },
-        contact: {
-          select: {
-            phone: true,
-            instagram: true,
-            email: true,
-          },
-        },
-        address: {
-          select: {
-            street: true,
-            village: true,
-            district: true,
-            city: true,
-            province: true,
           },
         },
       },
@@ -432,6 +329,8 @@ const userSearch = async (request) => {
   };
 };
 
+//* UNTUK SEARCH USER BY QUERY AND BANI
+
 const userSearchByBani = async (request) => {
   request = validate(searchValidation, request);
 
@@ -453,7 +352,6 @@ const userSearchByBani = async (request) => {
         },
       },
     },
-
     {
       profil: {
         address: {
@@ -497,53 +395,13 @@ const userSearchByBani = async (request) => {
     username: true,
     profil: {
       select: {
+        id: true,
         name: true,
+        alive_status: true,
         avatar: true,
-        husband: {
-          select: {
-            name: true,
-          },
-        },
-        wives: {
-          select: {
-            id: true,
-            istri_ke: true,
-            name: true,
-            alive_status: true,
-          },
-          orderBy: {
-            istri_ke: "asc",
-          },
-        },
-        parent: {
-          select: {
-            name: true,
-          },
-        },
-        generasi: {
-          select: {
-            generasi_name: true,
-          },
-        },
         bani: {
           select: {
             bani_name: true,
-          },
-        },
-        contact: {
-          select: {
-            phone: true,
-            instagram: true,
-            email: true,
-          },
-        },
-        address: {
-          select: {
-            street: true,
-            village: true,
-            district: true,
-            city: true,
-            province: true,
           },
         },
       },
@@ -725,81 +583,24 @@ const userGetById = async (request) => {
     select: {
       id: true,
       username: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+      profil: true,
       profil: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
-          gender: true,
-          alive_status: true,
-          status: true,
-          bio: true,
-          birthday: true,
-          husband: {
-            select: {
-              id: true,
-              name: true,
-              alive_status: true,
-            },
-          },
-          wives: {
-            select: {
-              id: true,
-              name: true,
-              istri_ke: true,
-              alive_status: true,
-            },
-            orderBy: {
-              istri_ke: "asc",
-            },
-          },
-          parent: {
-            select: {
-              id: true,
-              name: true,
-              alive_status: true,
-            },
-          },
-          children: {
-            select: {
-              anak_ke: true,
-              name: true,
-              alive_status: true,
-            },
-            orderBy: {
-              anak_ke: "asc",
-            },
-          },
-          generasi: {
-            select: {
-              generasi_name: true,
-            },
-          },
-          bani: {
-            select: {
-              bani_name: true,
-            },
-          },
-          contact: {
-            select: {
-              phone: true,
-              instagram: true,
-              email: true,
-            },
-          },
-          address: {
-            select: {
-              street: true,
-              village: true,
-              district: true,
-              city: true,
-              province: true,
-              postal_code: true,
-            },
-          },
+        include: {
+          bani: true,
+          generasi: true,
+          subcription: true,
+          parent: true,
+          husband: true,
+          wives: { orderBy: { istri_ke: "asc" } },
+          children: { orderBy: { anak_ke: "asc" } },
+          address: true,
+          contact: true,
         },
       },
-    },
+    }
   });
 
   if (!user) {
@@ -808,47 +609,32 @@ const userGetById = async (request) => {
 
   return user;
 };
+
+//* UNTUK GET CHILDREN BY ID
 
 const userGetChildrenById = async (request) => {
   const userId = validate(getUserValidation, request);
 
-  const user = await prismaClient.profile.findUnique({
+  const user = await prismaClient.user.findUnique({
     where: {
       id: userId,
     },
-
     select: {
-      name: true,
-      alive_status: true,
-      husband: {
+      profil: {
         select: {
-          id: true,
           name: true,
-          alive_status: true,
-        },
-      },
-      wives: {
-        select: {
-          id: true,
-          istri_ke: true,
-          name: true,
-          alive_status: true,
-        },
-        orderBy: {
-          istri_ke: "asc",
-        },
-      },
-      children: {
-        select: {
-          anak_ke: true,
-          name: true,
-          alive_status: true,
-        },
-        orderBy: {
-          anak_ke: "asc",
-        },
-      },
-    },
+          children: {
+            select: {
+              userId: true,
+              anak_ke: true,
+              name: true,
+              gender: true,
+              alive_status: true,
+            }, orderBy: [{anak_ke:"asc"}],
+          }
+        }
+      }
+    }
   });
 
   if (!user) {
@@ -857,6 +643,8 @@ const userGetChildrenById = async (request) => {
 
   return user;
 };
+
+//* UNTUK MENGHITUNG JUMLAH ANGGOTA BANI
 
 const userGetTotal = async () => {
   const totalItems = await prismaClient.user.count({

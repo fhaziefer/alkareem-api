@@ -186,7 +186,7 @@ const userGetByIdAdmin = async (request) => {
                     subcription: true,
                     parent: true,
                     husband: true,
-                    wife: true,
+                    wives: {orderBy: {istri_ke: "asc"}},
                     children: {orderBy: {anak_ke: "asc"}},
                     address: true,
                     contact: true
