@@ -49,6 +49,7 @@ model Bani {
 
 model Generasi {
   id            Int    @id @default(autoincrement())
+  generasi_number String?
   generasi_name String
 
   profiles Profile[]
@@ -95,7 +96,7 @@ model Profile {
 
   userId         String  @unique @map("user_id")
   baniId         Int     @default(7) @map("bani_id")
-  generasiId     Int     @default(10) @map("generasi_id")
+  generasiId     Int     @default(12) @map("generasi_id")
   husbandId      String? @map("husband_id")
   parentId       String? @map("parent_id")
   subscriptionId String  @default("FREE") @map("subsctiption_id")
