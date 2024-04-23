@@ -115,11 +115,12 @@ const userGet = async (username) => {
               bani: {
                 select: {
                   id: true,
-                  bani_name: true
-                }
-              }
-            }, orderBy: [{baniId: "asc"}]
-          }
+                  bani_name: true,
+                },
+              },
+            },
+            orderBy: [{ baniId: "asc" }],
+          },
         },
       },
     },
@@ -410,9 +411,13 @@ const userSearchByBani = async (request) => {
         name: true,
         alive_status: true,
         avatar: true,
-        bani: {
+        profileBani: {
           select: {
-            bani_name: true,
+            bani: {
+              select: {
+                bani_name: true,
+              },
+            },
           },
         },
       },
@@ -425,9 +430,13 @@ const userSearchByBani = async (request) => {
         role: "USER",
         OR: filters,
         profil: {
-          bani: {
-            bani_name: {
-              contains: baniQuery,
+          profileBani: {
+            some: {
+              bani: {
+                bani_name: {
+                  contains: baniQuery,
+                },
+              },
             },
           },
         },
@@ -435,11 +444,6 @@ const userSearchByBani = async (request) => {
     },
     orderBy: [
       {
-        profil: {
-          bani: {
-            id: "asc",
-          },
-        },
         profil: {
           generasi: {
             id: "asc",
@@ -615,14 +619,15 @@ const userGetById = async (request) => {
               bani: {
                 select: {
                   id: true,
-                  bani_name: true
-                }
-              }
-            }, orderBy: [{baniId: "asc"}]
-          }
+                  bani_name: true,
+                },
+              },
+            },
+            orderBy: [{ baniId: "asc" }],
+          },
         },
       },
-    }
+    },
   });
 
   if (!user) {
@@ -652,11 +657,12 @@ const userGetChildrenById = async (request) => {
               name: true,
               gender: true,
               alive_status: true,
-            }, orderBy: [{anak_ke:"asc"}],
-          }
-        }
-      }
-    }
+            },
+            orderBy: [{ anak_ke: "asc" }],
+          },
+        },
+      },
+    },
   });
 
   if (!user) {
