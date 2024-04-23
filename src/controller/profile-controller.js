@@ -127,6 +127,17 @@ const getBaniProfile = async (req, res, next) => {
     }
 }
 
+const searchProfile = async (req,res,next) => {
+    try {
+        const result = await profileService.searhProfile(req.query.keyword)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const deleteBaniProfile = async (req, res, next) => {
     try {
         const user = req.user;
@@ -150,5 +161,6 @@ export default {
     deleteProfile,
     addBaniProfile,
     getBaniProfile,
+    searchProfile,
     deleteBaniProfile
 }

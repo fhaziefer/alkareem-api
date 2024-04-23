@@ -41,11 +41,14 @@ const addBaniValidation = Joi.object({
     profileId: Joi.string().min(1).max(50).optional()
 })
 
+const profileSearchValidation = Joi.string().min(0).max(30).optional()
+
 const profileBaniValidation = Joi.number().min(1).optional()
 
 export {
     createProfileValidation,
     updateProfileValidation,
     addBaniValidation,
+    profileSearchValidation,
     profileBaniValidation
 }

@@ -2,6 +2,7 @@ import {
   addBaniValidation,
   createProfileValidation,
   profileBaniValidation,
+  profileSearchValidation,
   updateProfileValidation,
 } from "../validation/profile-validation.js";
 import { validate } from "../validation/validation.js";
@@ -338,7 +339,7 @@ const addBaniProfile = async (user, request) => {
         },
       ],
     },
-  })
+  });
 
   if (baniOnDatabase === 1) {
     throw new ResponseError(404, "Bani is already exist");
@@ -356,6 +357,40 @@ const addBaniProfile = async (user, request) => {
       },
     },
   });
+};
+
+//* SEARCH PROFILE BY QUERY
+
+const searhProfile = async (request) => {
+  request = validate(profileSearchValidation, request);
+  const filters = [
+    {
+      name: {
+        contains: request,
+      },
+    },
+  ];
+  const select = {
+    id: true,
+    name: true,
+    gender: true,
+  };
+  const profile = await prismaClient.profile.findMany({
+    where: {
+      AND: {
+        OR: filters,
+      },
+    },
+    orderBy: [
+      {
+        generasiId: "asc",
+      },
+    ],
+    select: select,
+  });
+
+  return profile;
+  
 };
 
 //* GET BANI PROFILE
@@ -377,14 +412,14 @@ const getBaniProfile = async (user) => {
     },
     include: {
       profile: true,
-      profile: {select: {name:true}},
+      profile: { select: { name: true } },
       bani: true,
     },
     orderBy: [
       {
-        baniId: "asc"
-      }
-    ]
+        baniId: "asc",
+      },
+    ],
   });
 
   return bani;
@@ -441,5 +476,6 @@ export default {
   deleteProfile,
   addBaniProfile,
   getBaniProfile,
+  searhProfile,
   deleteBaniProfile,
 };
