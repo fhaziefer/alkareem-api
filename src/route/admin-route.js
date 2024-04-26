@@ -18,13 +18,19 @@ adminRouter.get('/admin/user/search', adminController.userSearchAdmin);
 adminRouter.get('/admin/user/:id', adminController.userGetByIdAdmin);
 adminRouter.patch('/admin/user/:id', adminController.userUpdateAdmin);
 adminRouter.delete('/admin/user/:id', adminController.userDeleteAdmin);
+adminRouter.get('/admin/user/profile/:id', adminController.getProfileByIdAdmin);
+adminRouter.get('/admin/user/profile/bani/:id', adminController.getBaniProfileAdmin);
+adminRouter.post('/admin/user/profile/bani/:id', adminController.addBaniProfileAdmin);
+adminRouter.delete('/admin/user/profile/bani/:id/:baniId', adminController.deleteBaniProfileAdmin);
 adminRouter.post('/admin/user/profile/:id', adminController.profileCreateAdmin);
 adminRouter.patch('/admin/user/profile/avatar/:id', adminController.uploadAvatarProfileAdmin);
 adminRouter.patch('/admin/user/profile/avatar/remove/:id', adminController.removeAvatarProfileAdmin);
 adminRouter.patch('/admin/user/profile/:id', adminController.profileUpdateAdmin);
 adminRouter.post('/admin/user/profile/contact/:id', adminController.contactCreateAdmin);
+adminRouter.get('/admin/user/profile/contact/:id', adminController.getContactByIdAdmin);
 adminRouter.patch('/admin/user/profile/contact/:id', adminController.contactUpdateAdmin);
 adminRouter.post('/admin/user/profile/address/:id', adminController.addressCreateAdmin);
+adminRouter.get('/admin/user/profile/address/:id', adminController.getAddressByIdAdmin);
 adminRouter.patch('/admin/user/profile/address/:id', adminController.addressUpdateAdmin);
 
 export{
