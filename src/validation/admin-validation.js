@@ -1,17 +1,23 @@
 import Joi from 'joi'
 
-const pattern = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/;
-
 const registerUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(pattern).required(),
+    username: Joi.string()
+        .min(3)
+        .max(30)
+        .pattern(/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/)
+        .required(),
     password: Joi.string().min(8).max(30).required(),
     role: Joi.string().optional()
 });
 
 const updateUserValidation = Joi.object({
     id: Joi.string().optional(),
-    username: Joi.string().min(3).max(30).pattern(pattern).optional(),
+    username: Joi.string()
+        .min(3)
+        .max(30)
+        .pattern(/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){1,28}[a-zA-Z0-9._](?:_[a-zA-Z0-9]{1,3})?$/)
+        .optional(),
     password: Joi.string().min(8).max(30).optional()
 });
 
@@ -22,6 +28,13 @@ const searchValidation = Joi.object({
 })
 
 const userIdValidation = Joi.string().min(5).max(50).required()
+
+const profileBaniValidation = Joi.number().min(1).optional()
+
+const addBaniValidation = Joi.object({
+    baniId: Joi.number().min(1).optional(),
+    profileId: Joi.string().min(1).max(50).optional()
+})
 
 const createProfileValidation = Joi.object({
     name : Joi.string().min(3).max(50).required(),
@@ -74,13 +87,13 @@ const updateAddressValidation = Joi.object({
 })
 
 const createContactValidation = Joi.object({
-    phone: Joi.string().regex(/^[0-9]{12,14}$/).min(8).max(14).optional(),
+    phone: Joi.string().min(8).max(14).optional(),
     email: Joi.string().min(3).max(30).email().optional(),
     instagram: Joi.string().min(3).max(30).optional()
 })
 
 const updateContactValidation = Joi.object({
-    phone: Joi.string().regex(/^[0-9]{12,14}$/).min(8).max(14).optional(),
+    phone: Joi.string().min(8).max(14).optional(),
     email: Joi.string().min(3).max(30).email().optional(),
     instagram: Joi.string().min(3).max(30).optional()
 })
@@ -95,5 +108,7 @@ export {
     createAddressValidation,
     updateAddressValidation,
     createContactValidation,
-    updateContactValidation
+    updateContactValidation,
+    profileBaniValidation,
+    addBaniValidation
 }

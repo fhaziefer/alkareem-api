@@ -185,12 +185,98 @@ const addressUpdateAdmin = async (req, res, next) => {
     }
 }
 
+const getProfileByIdAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const result = await adminService.getProfileByIdAdmin(userId)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
+const getBaniProfileAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const result = await adminService.getBaniProfileAdmin(userId)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
+const getContactByIdAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const result = await adminService.getContactByIdAdmin(userId)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
+const getAddressByIdAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const result = await adminService.getAddressByIdAdmin(userId)
+        res.status(200).json({
+            data: result
+        })
+        
+    } catch (e) {
+        next(e);
+    }
+}
+
+const addBaniProfileAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const request = req.body
+
+        const result = await adminService.addBaniProfileAdmin(userId, request);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const deleteBaniProfileAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const request = req.params.baniId
+
+        await profileService.deleteBaniProfile(userId, request);
+        res.status(200).json({
+            data: "Bani is deleted successfully" 
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegisterAdmin,
     userSearchAdmin,
     userGetByIdAdmin,
     userUpdateAdmin,
     userDeleteAdmin,
+    getProfileByIdAdmin,
+    getBaniProfileAdmin,
+    getContactByIdAdmin,
+    getAddressByIdAdmin,
+    addBaniProfileAdmin,
+    deleteBaniProfileAdmin,
     profileCreateAdmin,
     profileUpdateAdmin,
     uploadAvatarProfileAdmin,

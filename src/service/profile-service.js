@@ -8,7 +8,6 @@ import {
 import { validate } from "../validation/validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { logger } from "../application/logging.js";
 
 //* UNTUK MEMBUAT PROFILE UNTUK USER
 
