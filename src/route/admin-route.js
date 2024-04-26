@@ -1,7 +1,6 @@
 import express from 'express';
 import { authAdminMiddleware } from '../middleware/admin-auth-middleware.js';
 import adminController from '../controller/admin-controller.js';
-import { adminAvatarUpload } from '../middleware/image-upload-middleware.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 

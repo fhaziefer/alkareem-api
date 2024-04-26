@@ -108,7 +108,7 @@ const uploadAvatarProfileAdmin = async (req, res, next) => {
 
         const avatar = `/${path}`
 
-        const result = await profileService.uploadAvatarProfile(userId, avatar);
+        const result = await adminService.uploadAvatarProfileAdmin(userId, avatar);
         res.status(200).json({
             data:result
         })
@@ -121,7 +121,7 @@ const uploadAvatarProfileAdmin = async (req, res, next) => {
 const removeAvatarProfileAdmin = async (req, res, next) => {
     try {
         const userId = req.params.id;
-        const result = await profileService.removeAvatarProfile(userId);
+        const result = await adminService.removeAvatarProfileAdmin(userId);
         res.status(200).json({
             data:result
         })
