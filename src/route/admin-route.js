@@ -19,14 +19,14 @@ adminRouter.get('/admin/user/search', adminController.userSearchAdmin);
 adminRouter.get('/admin/user/:id', adminController.userGetByIdAdmin);
 adminRouter.patch('/admin/user/:id', adminController.userUpdateAdmin);
 adminRouter.delete('/admin/user/:id', adminController.userDeleteAdmin);
-adminRouter.post('/admin/user/profil/:id', adminController.profileCreateAdmin);
-adminRouter.patch('/admin/user/profil/avatar/:id', adminController.uploadAvatarProfileAdmin);
-adminRouter.patch('/admin/user/profil/avatar/remove/:id', adminController.removeAvatarProfileAdmin);
-adminRouter.patch('/admin/user/profil/:id', adminController.profileUpdateAdmin);
-adminRouter.post('/admin/user/profil/contact/:id', adminController.contactCreateAdmin);
-adminRouter.patch('/admin/user/profil/contact/:id', adminController.contactUpdateAdmin);
-adminRouter.post('/admin/user/profil/address/:id', adminController.addressCreateAdmin);
-adminRouter.patch('/admin/user/profil/address/:id', adminController.addressUpdateAdmin);
+adminRouter.post('/admin/user/profile/:id', adminController.profileCreateAdmin);
+adminRouter.patch('/admin/user/profile/avatar/:id', adminController.uploadAvatarProfileAdmin);
+adminRouter.patch('/admin/user/profile/avatar/remove/:id', adminController.removeAvatarProfileAdmin);
+adminRouter.patch('/admin/user/profile/:id', adminController.profileUpdateAdmin);
+adminRouter.post('/admin/user/profile/contact/:id', adminController.contactCreateAdmin);
+adminRouter.patch('/admin/user/profile/contact/:id', adminController.contactUpdateAdmin);
+adminRouter.post('/admin/user/profile/address/:id', adminController.addressCreateAdmin);
+adminRouter.patch('/admin/user/profile/address/:id', adminController.addressUpdateAdmin);
 
 export{
     adminRouter

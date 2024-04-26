@@ -189,7 +189,17 @@ const userGetByIdAdmin = async (request) => {
                     wives: {orderBy: {istri_ke: "asc"}},
                     children: {orderBy: {anak_ke: "asc"}},
                     address: true,
-                    contact: true
+                    contact: true,
+                    profileBani: {
+                        select: {
+                            bani:{
+                                select: {
+                                    id:true,
+                                    bani_name: true,
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
