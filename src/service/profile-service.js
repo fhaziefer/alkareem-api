@@ -168,6 +168,7 @@ const updateProfile = async (user, request) => {
       name: profile.name,
       gender: profile.gender,
       anak_ke: profile.anak_ke,
+      istri_ke: profile.istri_ke,
       birthday: profile.birthday,
       alive_status: profile.alive_status,
       status: profile.status,
@@ -182,6 +183,7 @@ const updateProfile = async (user, request) => {
       name: true,
       gender: true,
       anak_ke: true,
+      istri_ke: true,
       birthday: true,
       alive_status: true,
       status: true,
@@ -389,7 +391,6 @@ const searhProfile = async (request) => {
   });
 
   return profile;
-  
 };
 
 //* GET BANI PROFILE

@@ -451,9 +451,9 @@ const profileCreateAdmin = async (userId, profilData) => {
     throw new ResponseError(400, "Profile is already exist");
   }
 
-  if (request.gender === "MALE") {
+  if (profile.gender === "MALE") {
     profile.avatar = "/images/avatar/male.jpg";
-  } else if (request.gender === "FEMALE") {
+  } else if (profile.gender === "FEMALE") {
     profile.avatar = "/images/avatar/female.jpg";
   } else {
     profile.avatar = "/images/avatar/unknown.jpg";
@@ -466,39 +466,11 @@ const profileCreateAdmin = async (userId, profilData) => {
     select: {
       name: true,
       gender: true,
-      anak_ke: true,
-      birthday: true,
       alive_status: true,
-      status: true,
       avatar: true,
       user: {
         select: {
           username: true,
-        },
-      },
-      husband: {
-        select: {
-          name: true,
-        },
-      },
-      wife: {
-        select: {
-          name: true,
-        },
-      },
-      parent: {
-        select: {
-          name: true,
-        },
-      },
-      bani: {
-        select: {
-          bani_name: true,
-        },
-      },
-      generasi: {
-        select: {
-          generasi_name: true,
         },
       },
     },
@@ -592,6 +564,7 @@ const profileUpdateAdmin = async (userId, profilData) => {
       name: profil.name,
       gender: profil.gender,
       anak_ke: profil.anak_ke,
+      istri_ke: profil.istri_ke,
       birthday: profil.birthday,
       alive_status: profil.alive_status,
       status: profil.status,
@@ -605,6 +578,7 @@ const profileUpdateAdmin = async (userId, profilData) => {
       name: true,
       gender: true,
       anak_ke: true,
+      istri_ke:true,
       birthday: true,
       alive_status: true,
       status: true,

@@ -42,13 +42,14 @@ const createProfileValidation = Joi.object({
     gender: Joi.string().min(4).max(10).optional(),
     anak_ke: Joi.number().min(1).optional(),
     birthday: Joi.date().optional(),
+    istri_ke: Joi.number().min(1).optional(),
     pendidikan: Joi.string().min(2).max(20).optional(),
     alive_status: Joi.boolean().optional(),
     avatar: Joi.string().min(3).max(100).optional(),
     baniId: Joi.number().min(1).optional(),
     generasiId: Joi.number().min(1).optional(),
-    parentId: Joi.string().min(1).max(2).optional(),
-    husbandId: Joi.string().min(1).max(2).optional(),
+    parentId: Joi.string().min(1).max(50).optional(),
+    husbandId: Joi.string().min(1).max(50).optional(),
     subscriptionId: Joi.string().min(1).max(2).optional(),
     status: Joi.string().min(3).max(10).optional()
 });
@@ -58,13 +59,14 @@ const updateProfileValidation = Joi.object({
     gender: Joi.string().min(4).max(10).optional(),
     anak_ke: Joi.number().min(1).optional(),
     birthday: Joi.date().optional(),
+    istri_ke: Joi.number().min(1).optional(),
     pendidikan: Joi.string().min(2).max(20).optional(),
     alive_status: Joi.boolean().optional(),
     avatar: Joi.string().min(3).max(100).optional(),
     baniId: Joi.number().min(1).optional(),
     generasiId: Joi.number().min(1).optional(),
     parentId: Joi.string().min(1).max(50).optional(),
-    husbandId: Joi.string().min(1).max(2).optional(),
+    husbandId: Joi.string().min(1).max(50).optional(),
     subscriptionId: Joi.string().min(1).max(2).optional(),
     status: Joi.string().min(3).max(10).optional()
 });
@@ -95,8 +97,8 @@ const createContactValidation = Joi.object({
 
 const updateContactValidation = Joi.object({
     phone: Joi.string().min(8).max(14).optional(),
-    email: Joi.string().min(3).max(30).email().optional(),
-    instagram: Joi.string().min(3).max(30).optional()
+    email: Joi.string().min(0).max(30).email().optional(),
+    instagram: Joi.string().min(0).max(30).optional()
 })
 
 export {
