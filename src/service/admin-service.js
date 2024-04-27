@@ -229,6 +229,27 @@ const userGetByIdAdmin = async (request) => {
   return user;
 };
 
+const userGetByUsernameAdmin = async (username) => {
+
+  username = validate(userIdValidation, username);
+
+  const user = await prismaClient.user.findUnique({
+    where: {
+      username: username,
+    },
+    select: {
+      username: true,
+      id: true,
+    },
+  });
+
+  if (!user) {
+    throw new ResponseError(400, "User is not found");
+  }
+
+  return user;
+};
+
 const userUpdateAdmin = async (userId, user) => {
   userId = validate(userIdValidation, userId);
   user = validate(updateUserValidation, user);
@@ -592,12 +613,13 @@ const profileUpdateAdmin = async (userId, profilData) => {
           username: true,
         },
       },
-      wives: { 
-        select:{
-          istri_ke:true,
-          name: true
+      wives: {
+        select: {
+          istri_ke: true,
+          name: true,
         },
-        orderBy: { istri_ke: "asc" } },
+        orderBy: { istri_ke: "asc" },
+      },
       husband: {
         select: {
           name: true,
@@ -878,6 +900,7 @@ export default {
   userRegisterAdmin,
   userSearchAdmin,
   userGetByIdAdmin,
+  userGetByUsernameAdmin,
   userUpdateAdmin,
   userDeleteAdmin,
   profileCreateAdmin,

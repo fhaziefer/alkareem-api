@@ -28,6 +28,7 @@ const searchValidation = Joi.object({
 })
 
 const userIdValidation = Joi.string().min(5).max(50).required()
+const usernameValidation = Joi.string().min(5).max(50).required()
 
 const profileBaniValidation = Joi.number().min(1).optional()
 
@@ -103,6 +104,7 @@ export {
     updateUserValidation,
     searchValidation,
     userIdValidation,
+    usernameValidation,
     createProfileValidation,
     updateProfileValidation,
     createAddressValidation,

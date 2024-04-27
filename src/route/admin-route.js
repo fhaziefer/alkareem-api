@@ -16,6 +16,8 @@ adminRouter.use(authAdminMiddleware);
 adminRouter.post('/admin/user', adminController.userRegisterAdmin);
 adminRouter.get('/admin/user/search', adminController.userSearchAdmin);
 adminRouter.get('/admin/user/:id', adminController.userGetByIdAdmin);
+adminRouter.get('/admin/user/:username', adminController.userGetByUsernameAdmin);
+adminRouter.get('/admin/user/:id', adminController.userGetByIdAdmin);
 adminRouter.patch('/admin/user/:id', adminController.userUpdateAdmin);
 adminRouter.delete('/admin/user/:id', adminController.userDeleteAdmin);
 adminRouter.get('/admin/user/profile/:id', adminController.getProfileByIdAdmin);

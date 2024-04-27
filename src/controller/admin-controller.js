@@ -41,6 +41,18 @@ const userGetByIdAdmin = async (req, res, next) => {
     }
 }
 
+const userGetByUsernameAdmin = async (req, res, next) => {
+    try {
+        const username = req.params.username
+        const result = await adminService.userGetByUsernameAdmin(username)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e) 
+    }
+}
+
 const userUpdateAdmin = async (req, res, next) => {
     try {
         const userId = req.params.id
@@ -269,6 +281,7 @@ export default {
     userRegisterAdmin,
     userSearchAdmin,
     userGetByIdAdmin,
+    userGetByUsernameAdmin,
     userUpdateAdmin,
     userDeleteAdmin,
     getProfileByIdAdmin,
