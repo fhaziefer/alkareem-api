@@ -256,7 +256,7 @@ const deleteBaniProfileAdmin = async (req, res, next) => {
         const userId = req.params.id
         const request = req.params.baniId
 
-        await profileService.deleteBaniProfile(userId, request);
+        await adminService.deleteBaniProfileAdmin(userId, request);
         res.status(200).json({
             data: "Bani is deleted successfully" 
         })
