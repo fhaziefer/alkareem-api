@@ -11,6 +11,7 @@ import {
   updateProfileValidation,
   updateUserValidation,
   userIdValidation,
+  usernameValidation,
 } from "../validation/admin-validation.js";
 import { validate } from "../validation/validation.js";
 import { prismaClient } from "../application/database.js";
@@ -229,13 +230,13 @@ const userGetByIdAdmin = async (request) => {
   return user;
 };
 
-const userGetByUsernameAdmin = async (username) => {
+const userGetByUsernameAdmin = async (request) => {
 
-  username = validate(userIdValidation, username);
+  const usernameRequest  = validate(usernameValidation, request);
 
-  const user = await prismaClient.user.findUnique({
+  const user = await prismaClient.user.findFirst({
     where: {
-      username: username,
+      username: usernameRequest,
     },
     select: {
       username: true,

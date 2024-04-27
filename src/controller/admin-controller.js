@@ -1,4 +1,3 @@
-import { logger } from "../application/logging.js"
 import adminService from "../service/admin-service.js"
 
 const userRegisterAdmin = async (req, res, next) => {
@@ -43,8 +42,8 @@ const userGetByIdAdmin = async (req, res, next) => {
 
 const userGetByUsernameAdmin = async (req, res, next) => {
     try {
-        const username = req.params.username
-        const result = await adminService.userGetByUsernameAdmin(username)
+        const request = req.params.id
+        const result = await adminService.userGetByUsernameAdmin(request)
         res.status(200).json({
             data: result
         })
