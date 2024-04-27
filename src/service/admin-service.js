@@ -592,12 +592,13 @@ const profileUpdateAdmin = async (userId, profilData) => {
           username: true,
         },
       },
-      husband: {
-        select: {
-          name: true,
+      wives: { 
+        select:{
+          istri_ke:true,
+          name: true
         },
-      },
-      wife: {
+        orderBy: { istri_ke: "asc" } },
+      husband: {
         select: {
           name: true,
         },
