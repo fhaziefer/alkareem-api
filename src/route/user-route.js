@@ -54,6 +54,8 @@ userRouter.patch(
 );
 userRouter.get("/user/profile/current", profileController.getProfile);
 userRouter.get("/user/profile/search", profileController.searchProfile);
+userRouter.get("/user/profile/parent/search", profileController.searchProfileParent);
+userRouter.get("/user/profile/husband/search", profileController.searchProfileHusband);
 userRouter.patch("/user/profile/current", profileController.updateProfile);
 userRouter.delete("/user/profile/current", profileController.deleteProfile);
 

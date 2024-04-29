@@ -2,6 +2,8 @@ import {
   addBaniValidation,
   createProfileValidation,
   profileBaniValidation,
+  profileSearchHusbandValidation,
+  profileSearchParentValidation,
   profileSearchValidation,
   updateProfileValidation,
 } from "../validation/profile-validation.js";
@@ -393,6 +395,105 @@ const searhProfile = async (request) => {
   return profile;
 };
 
+//* SEARCH HUSBAND BY QUERY
+
+const searhProfileParent = async (request) => {
+  request = validate(profileSearchParentValidation, request);
+  const query = request.query;
+  const generasi = request.generasi;
+  const filters = [];
+
+  if (query) {
+    filters.push({
+      name: {
+        contains: query,
+      },
+    });
+  }
+
+  if (generasi) {
+    filters.push({
+      generasiId: {
+        equals: generasi,
+      },
+    });
+  }
+
+  const select = {
+    id: true,
+    name: true,
+    gender: true,
+  };
+
+  const profile = await prismaClient.profile.findMany({
+    where: {
+      AND: filters,
+    },
+    orderBy: [
+      {
+        generasiId: "asc",
+      },
+    ],
+    select: select,
+  });
+
+  return profile;
+};
+
+//* SEARCH HUSBAND BY QUERY
+
+const searhProfileHusband = async (request) => {
+  request = validate(profileSearchHusbandValidation, request);
+  const query = request.query;
+  const gender = request.gender;
+  const generasi = request.generasi;
+  const filters = [];
+
+  if (query) {
+    filters.push({
+      name: {
+        contains: query,
+      },
+    });
+  }
+
+  if (gender) {
+    filters.push({
+      gender: {
+        equals: gender,
+      },
+    });
+  }
+
+  if (generasi) {
+    filters.push({
+      generasiId: {
+        equals: generasi,
+      },
+    });
+  }
+
+  const select = {
+    id: true,
+    name: true,
+    gender: true,
+  };
+
+  const profile = await prismaClient.profile.findMany({
+    where: {
+      AND: filters,
+    },
+    orderBy: [
+      {
+        generasiId: "asc",
+      },
+    ],
+    select: select,
+  });
+
+  return profile;
+};
+
 //* GET BANI PROFILE
 
 const getBaniProfile = async (user) => {
@@ -477,5 +578,7 @@ export default {
   addBaniProfile,
   getBaniProfile,
   searhProfile,
+  searhProfileParent,
+  searhProfileHusband,
   deleteBaniProfile,
 };

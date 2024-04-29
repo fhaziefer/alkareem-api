@@ -43,6 +43,17 @@ const addBaniValidation = Joi.object({
 
 const profileSearchValidation = Joi.string().min(0).max(30).optional()
 
+const profileSearchHusbandValidation = Joi.object({
+    query: Joi.string().min(0).max(50).optional(),
+    generasi: Joi.number().min(0).optional(),
+    gender: Joi.string().min(0).optional(),
+})
+
+const profileSearchParentValidation = Joi.object({
+    query: Joi.string().min(0).max(50).optional(),
+    generasi: Joi.number().min(0).optional(),
+})
+
 const profileBaniValidation = Joi.number().min(1).optional()
 
 export {
@@ -50,5 +61,7 @@ export {
     updateProfileValidation,
     addBaniValidation,
     profileSearchValidation,
-    profileBaniValidation
+    profileBaniValidation,
+    profileSearchHusbandValidation,
+    profileSearchParentValidation
 }

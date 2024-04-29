@@ -138,6 +138,37 @@ const searchProfile = async (req,res,next) => {
     }
 }
 
+const searchProfileParent = async (req,res,next) => {
+    try {
+        const request = {
+            query: req.query.keyword,
+            generasi: req.query.generasi,
+        };
+        const result = await profileService.searhProfileParent(request)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const searchProfileHusband = async (req,res,next) => {
+    try {
+        const request = {
+            query: req.query.keyword,
+            gender: 'MALE',
+            generasi: req.query.generasi,
+        };
+        const result = await profileService.searhProfileHusband(request)
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const deleteBaniProfile = async (req, res, next) => {
     try {
         const user = req.user;
@@ -162,5 +193,7 @@ export default {
     addBaniProfile,
     getBaniProfile,
     searchProfile,
+    searchProfileParent,
+    searchProfileHusband,
     deleteBaniProfile
 }
