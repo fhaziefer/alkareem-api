@@ -804,7 +804,7 @@ const userGetTotal = async () => {
 
   return {
     totalUser: totalItems,
-    totalFamily: totalFamily,
+    totalFamily: totalFamily / 2,
     totalSingle: totalSingle,
     totalAlive: totalAlive,
     totalDeath: totalDeath,
