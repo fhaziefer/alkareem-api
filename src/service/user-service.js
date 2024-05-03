@@ -686,6 +686,7 @@ const userGetTotal = async () => {
       role: "USER",
       profil: {
         status: "MARRIED",
+        gender: "MALE",
       },
     },
   });
@@ -740,8 +741,14 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Hannah",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Hannah",
+              },
+            },
+          },
         },
       },
     },
@@ -751,8 +758,14 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Salamah",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Salamah",
+              },
+            },
+          },
         },
       },
     },
@@ -762,8 +775,14 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Aisyah",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Aisyah",
+              },
+            },
+          },
         },
       },
     },
@@ -773,8 +792,14 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Maryam",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Maryam",
+              },
+            },
+          },
         },
       },
     },
@@ -784,8 +809,14 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Zainab",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Zainab",
+              },
+            },
+          },
         },
       },
     },
@@ -795,8 +826,128 @@ const userGetTotal = async () => {
     where: {
       role: "USER",
       profil: {
-        bani: {
-          bani_name: "Bani Qomariyah",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Qomariyah",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKHannah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Hannah",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKSalamah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Salamah",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKAisyah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Aisyah",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKMaryam = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Maryam",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKZainab = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Zainab",
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const totalKKQomariyah = await prismaClient.user.count({
+    where: {
+      role: "USER",
+      profil: {
+        status: "MARRIED",
+        gender: "MALE",
+        profileBani: {
+          some: {
+            bani: {
+              bani_name: {
+                contains: "Bani Qomariyah",
+              },
+            },
+          },
         },
       },
     },
@@ -804,7 +955,13 @@ const userGetTotal = async () => {
 
   return {
     totalUser: totalItems,
-    totalFamily: totalFamily / 2,
+    totalFamily: totalFamily,
+    totalKKHannah: totalKKHannah,
+    totalKKSalamah: totalKKSalamah,
+    totalKKAisyah: totalKKAisyah,
+    totalKKMaryam: totalKKMaryam,
+    totalKKZainab: totalKKZainab,
+    totalKKQomariyah: totalKKQomariyah,
     totalSingle: totalSingle,
     totalAlive: totalAlive,
     totalDeath: totalDeath,
