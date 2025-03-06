@@ -12,6 +12,7 @@ import {
   updateUserValidation,
   userIdValidation,
   usernameValidation,
+  profileGenerasiValidation
 } from "../validation/admin-validation.js";
 import { validate } from "../validation/validation.js";
 import { prismaClient } from "../application/database.js";
@@ -461,6 +462,22 @@ const profileCreateAdmin = async (userId, profilData) => {
 
   profile.userId = userId;
 
+  const generasiId = profile.generasiId;
+
+  const countUser = await prismaClient.profile.count({
+    where: {
+      generasiId: generasiId,
+    },
+  });
+  let prefixGen = 0;
+  if (generasiId >= 1 && generasiId <= 100) {
+    prefixGen = generasiId * 100000;
+  } else {
+    throw new ResponseError(400, "ID Generasi Tidak Valid");
+  }
+
+  profile.number = prefixGen + countUser + 1;
+
   return prismaClient.profile.create({
     data: profile,
     select: {
@@ -618,6 +635,49 @@ const profileUpdateAdmin = async (userId, profilData) => {
     },
   });
 };
+
+const profileNumberUpdateAdmin = async (userId, profilData) => {
+  userId = validate(userIdValidation, userId);
+  const genNumber = validate(profileGenerasiValidation, profilData)
+
+  const totalProfileInDatabase = await prismaClient.profile.count({
+    where: {
+      userId: userId,
+    },
+  });
+
+  if (totalProfileInDatabase !== 1) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const profile = await prismaClient.profile.findFirst({
+    where:{
+      userId: userId,
+    }
+  })
+
+  if (!profile) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const generasiId = profile.generasiId
+
+  let prefixGen = 0;
+  if (generasiId >= 1 && generasiId <= 100) {
+    prefixGen = generasiId * 100000;
+  } else {
+    throw new ResponseError(400, "ID Generasi Tidak Valid");
+  }
+
+  return prismaClient.profile.update({
+    where: {
+      userId: userId,
+    },
+    data: {
+      number: prefixGen + genNumber,
+    },
+  });
+}
 
 const getContactByIdAdmin = async (userId) => {
   userId = validate(userIdValidation, userId);
@@ -881,6 +941,7 @@ export default {
   profileCreateAdmin,
   profileUpdateAdmin,
   getProfileByIdAdmin,
+  profileNumberUpdateAdmin,
   getBaniProfileAdmin,
   addBaniProfileAdmin,
   deleteBaniProfileAdmin,

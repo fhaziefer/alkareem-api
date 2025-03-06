@@ -86,6 +86,7 @@ model Profile {
   id           String    @id @default(uuid())
   name         String
   gender       Gender    @default(UNKNOWN)
+  number  Int?
   anak_ke      Int?
   istri_ke     Int?
   birthday     DateTime? @db.Date

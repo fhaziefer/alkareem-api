@@ -276,6 +276,19 @@ const deleteBaniProfileAdmin = async (req, res, next) => {
     }
 }
 
+const updateNumberProfileAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.id
+        const profilData = req.body.number
+        await adminService.profileNumberUpdateAdmin(userId, profilData);
+        res.status(200).json({
+            data: "Number of profile is updated successfully"
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     userRegisterAdmin,
     userSearchAdmin,
@@ -288,6 +301,7 @@ export default {
     getContactByIdAdmin,
     getAddressByIdAdmin,
     addBaniProfileAdmin,
+    updateNumberProfileAdmin,
     deleteBaniProfileAdmin,
     profileCreateAdmin,
     profileUpdateAdmin,

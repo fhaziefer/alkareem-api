@@ -183,6 +183,19 @@ const deleteBaniProfile = async (req, res, next) => {
     }
 }
 
+const updateNumberProfile = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const request = req.body.number
+        await profileService.updateNumberProfile(user, request);
+        res.status(200).json({
+            data: "Number of profile is updated successfully"
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     createProfile,
     getProfile,
@@ -195,5 +208,6 @@ export default {
     searchProfile,
     searchProfileParent,
     searchProfileHusband,
+    updateNumberProfile,
     deleteBaniProfile
 }

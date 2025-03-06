@@ -56,12 +56,15 @@ const profileSearchParentValidation = Joi.object({
 
 const profileBaniValidation = Joi.number().min(1).optional()
 
+const profileGenerasiValidation = Joi.number().min(1).required()
+
 export {
     createProfileValidation,
     updateProfileValidation,
     addBaniValidation,
     profileSearchValidation,
     profileBaniValidation,
+    profileGenerasiValidation,
     profileSearchHusbandValidation,
     profileSearchParentValidation
 }

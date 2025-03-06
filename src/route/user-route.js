@@ -52,6 +52,7 @@ userRouter.patch(
   "/user/profile/avatar/current/remove",
   profileController.removeAvatarProfile
 );
+userRouter.patch("/user/profile/number/current", profileController.updateNumberProfile);
 userRouter.get("/user/profile/current", profileController.getProfile);
 userRouter.get("/user/profile/search", profileController.searchProfile);
 userRouter.get("/user/profile/parent/search", profileController.searchProfileParent);

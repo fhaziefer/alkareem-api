@@ -2,6 +2,7 @@ import {
   addBaniValidation,
   createProfileValidation,
   profileBaniValidation,
+  profileGenerasiValidation,
   profileSearchHusbandValidation,
   profileSearchParentValidation,
   profileSearchValidation,
@@ -36,11 +37,28 @@ const createProfile = async (user, request) => {
 
   profile.userId = user.id;
 
+  const generasiId = profile.generasiId;
+
+  const countUser = await prismaClient.profile.count({
+    where: {
+      generasiId: generasiId,
+    },
+  });
+  let prefixGen = 0;
+  if (generasiId >= 1 && generasiId <= 100) {
+    prefixGen = generasiId * 100000;
+  } else {
+    throw new ResponseError(400, "ID Generasi Tidak Valid");
+  }
+
+  profile.number = prefixGen + countUser + 1;
+
   return prismaClient.profile.create({
     data: profile,
     select: {
       name: true,
       gender: true,
+      number: true,
       anak_ke: true,
       birthday: true,
       alive_status: true,
@@ -184,6 +202,7 @@ const updateProfile = async (user, request) => {
     select: {
       name: true,
       gender: true,
+      number: true,
       anak_ke: true,
       istri_ke: true,
       birthday: true,
@@ -568,6 +587,48 @@ const deleteBaniProfile = async (user, request) => {
   });
 };
 
+const updateNumberProfile = async (user, request) => {
+  const genNumber = validate(profileGenerasiValidation, request);
+
+  const totalProfileInDatabase = await prismaClient.profile.count({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (totalProfileInDatabase !== 1) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const profile = await prismaClient.profile.findFirst({
+    where:{
+      userId: user.id,
+    }
+  })
+
+  if (!profile) {
+    throw new ResponseError(404, "Profile is not found");
+  }
+
+  const generasiId = profile.generasiId
+
+  let prefixGen = 0;
+  if (generasiId >= 1 && generasiId <= 100) {
+    prefixGen = generasiId * 100000;
+  } else {
+    throw new ResponseError(400, "ID Generasi Tidak Valid");
+  }
+
+  return prismaClient.profile.update({
+    where: {
+      userId: user.id,
+    },
+    data: {
+      number: prefixGen + genNumber,
+    },
+  });
+};
+
 export default {
   createProfile,
   getProfile,
@@ -580,5 +641,6 @@ export default {
   searhProfile,
   searhProfileParent,
   searhProfileHusband,
+  updateNumberProfile,
   deleteBaniProfile,
 };

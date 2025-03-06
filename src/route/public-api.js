@@ -3,6 +3,7 @@ import userController from "../controller/user-controller.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { avatarUpload } from "../middleware/image-upload-middleware.js";
+import path from "path";
 
 const publicRouter = new express.Router();
 
@@ -19,5 +20,8 @@ publicRouter.use("/", express.static("public"));
 publicRouter.post("/register", userController.userRegister);
 publicRouter.post("/login", userController.userLogin);
 publicRouter.get("/total-users", userController.userGetTotal);
+publicRouter.get("/", (req, res) => {
+    res.sendFile(path.resolve("index.html"));
+  });
 
 export { publicRouter };

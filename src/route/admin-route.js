@@ -28,6 +28,7 @@ adminRouter.post('/admin/user/profile/:id', adminController.profileCreateAdmin);
 adminRouter.patch('/admin/user/profile/avatar/:id', adminController.uploadAvatarProfileAdmin);
 adminRouter.patch('/admin/user/profile/avatar/remove/:id', adminController.removeAvatarProfileAdmin);
 adminRouter.patch('/admin/user/profile/:id', adminController.profileUpdateAdmin);
+adminRouter.patch('/admin/user/profile/number/:id', adminController.updateNumberProfileAdmin);
 adminRouter.post('/admin/user/profile/contact/:id', adminController.contactCreateAdmin);
 adminRouter.get('/admin/user/profile/contact/:id', adminController.getContactByIdAdmin);
 adminRouter.patch('/admin/user/profile/contact/:id', adminController.contactUpdateAdmin);

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alkareemAPI</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Hacker-themed Glow Effect */
+        .glow {
+            text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+        }
+
+        /* Container for Content */
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            background-color: #111;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Title Style */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+        }
+
+        /* Description Style */
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* API Link Style */
+        a {
+            color: #0f0;
+            text-decoration: none;
+            border-bottom: 2px solid #0f0;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        /* Blinking Animation */
+        @keyframes blink {
+            0%, 49% {
+                opacity: 1;
+            }
+            50%, 100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="glow">alkareemAPI</h1>
+        <p class="glow">
+            A RESTful API designed for the big family of <strong>KH. Abdul Karim Lirboyo</strong>. 
+            alkareemAPI provides seamless integration for managing user data, authentication, 
+            and family tree information. Built with scalability and security in mind, 
+            it empowers developers to create modern applications for the Lirboyo community.
+        </p>
+        <p class="glow">
+            Key Features:
+            <ul style="text-align: left; list-style-type: square; margin-left: 20px;">
+                <li>User Registration & Login with JWT Authentication</li>
+                <li>Manage User Profiles with Detailed Family Information</li>
+                <li>Retrieve and Update User Data Securely</li>
+                <li>Logout Functionality with Token Revocation</li>
+                <li>Scalable and Developer-Friendly Design</li>
+            </ul>
+        </p>
+        <p class="glow">
+            Explore the full API documentation <a href="https://github.com/fhaziefer/alkareem-api/blob/main/docs/user-docs.md">here</a>.
+        </p>
+    </div>
+</body>
+</html>
