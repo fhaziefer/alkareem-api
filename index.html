@@ -17,8 +17,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-y: auto;
         }
 
         /* Hacker-themed Glow Effect */
@@ -35,6 +35,8 @@
             border-radius: 10px;
             background-color: #111;
             box-shadow: 0 0 20px #0f0;
+            margin: 20px;
+            overflow-y: auto;
         }
 
         /* Title Style */
@@ -71,6 +73,26 @@
             }
             50%, 100% {
                 opacity: 0;
+            }
+        }
+
+        /* Media Query untuk Perangkat Mobile */
+        @media (max-width: 768px) {
+            body {
+                display: block; /* Nonaktifkan flexbox */
+                padding: 10px; /* Tambahkan padding untuk ruang di tepi layar */
+            }
+
+            .container {
+                margin: 10px; /* Kurangi margin untuk perangkat mobile */
+            }
+
+            h1 {
+                font-size: 2rem; /* Perkecil ukuran font untuk mobile */
+            }
+
+            p {
+                font-size: 1rem; /* Perkecil ukuran font untuk mobile */
             }
         }
     </style>
