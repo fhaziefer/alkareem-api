@@ -20,8 +20,12 @@ publicRouter.use("/", express.static("public"));
 publicRouter.post("/register", userController.userRegister);
 publicRouter.post("/login", userController.userLogin);
 publicRouter.get("/total-users", userController.userGetTotal);
+
+
+// Home route
 publicRouter.get("/", (req, res) => {
-    res.sendFile(path.resolve("index.html"));
-  });
+  res.sendFile(path.resolve("public/files/index.html"));
+});
+
 
 export { publicRouter };

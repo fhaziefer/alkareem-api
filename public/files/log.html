@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alkareemAPI - Log Terminal</title>
+    <link rel="icon" type="image/png" href="/images/asset/logo16.png">
+    <style>
+        :root {
+            --primary: #0f0;
+            --secondary: #0a0;
+            --bg: #000;
+            --query: #f0f;
+            --params: #ff0;
+            --duration: #0ff;
+            --error: #f00;
+            --warning: #ff0;
+        }
+        
+        body {
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .terminal-container {
+            width: 90%;
+            max-width: 800px;
+            height: 60vh;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 0 15px var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            color: var(--primary);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .terminal-title {
+            text-shadow: 0 0 5px var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .terminal-date {
+            color: var(--secondary);
+            font-size: 0.9em;
+        }
+        
+        .log-viewer {
+            flex-grow: 1;
+            overflow-y: auto;
+            color: var(--primary);
+        }
+        
+        .log-entry {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 2px solid var(--primary);
+            font-size: 0.9em;
+        }
+        
+        .log-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 3px;
+        }
+        
+        .timestamp {
+            color: var(--secondary);
+            font-size: 0.85em;
+        }
+        
+        .level {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85em;
+        }
+        
+        .level-info { color: var(--primary); }
+        .level-warning { color: var(--warning); }
+        .level-error { color: var(--error); }
+        
+        .target {
+            color: var(--secondary);
+            font-style: italic;
+            font-size: 0.85em;
+        }
+        
+        .query {
+            color: var(--query);
+            word-break: break-all;
+        }
+        
+        .params {
+            color: var(--params);
+        }
+        
+        .duration {
+            color: var(--duration);
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">alkareemAPI Log Terminal</div>
+            <div class="terminal-date">Tue 25 Mar 2025, 05.59</div>
+        </div>
+        <div class="log-viewer" id="log-container">
+            
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:35.266Z</span>
+                    <span class="level level-info">INFO</span>
+                    
+                </div>
+                <div>App started on port 3111</div>
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:35.269Z</span>
+                    <span class="level level-info">INFO</span>
+                    
+                </div>
+                <div>Log viewer available at /logs</div>
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:43.691Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::pooled</span>
+                </div>
+                <div>Starting a mysql pool with 17 connections.</div>
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:43.707Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[3ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:43.718Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[8ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:51.980Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:51.986Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE (`db_alkareem`.`users`.`username` = ? AND 1=1) LIMIT ? OFFSET ?</div>
+                <div class="params">["admin",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:57:51.987Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`user_id` IN (?)</div>
+                <div class="params">["f386f78a-4959-4847-bbb1-6c37e2d0e32c"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:08.872Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT 1</div>
+                <div class="params">[]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:08.873Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:08.876Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`user_id` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["f386f78a-4959-4847-bbb1-6c37e2d0e32c",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.779Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.783Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE (`db_alkareem`.`users`.`id` = ? AND 1=1) LIMIT ? OFFSET ?</div>
+                <div class="params">["c51e1a44-e08a-4452-9752-f99f451c8de9",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.784Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`user_id` IN (?)</div>
+                <div class="params">["c51e1a44-e08a-4452-9752-f99f451c8de9"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.788Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[3ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`banis`.`id`, `db_alkareem`.`banis`.`bani_name` FROM `db_alkareem`.`banis` WHERE `db_alkareem`.`banis`.`id` IN (?)</div>
+                <div class="params">[2]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.789Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`generasis`.`id`, `db_alkareem`.`generasis`.`generasi_number`, `db_alkareem`.`generasis`.`generasi_name` FROM `db_alkareem`.`generasis` WHERE `db_alkareem`.`generasis`.`id` IN (?)</div>
+                <div class="params">[2]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.790Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`subscriptions`.`id`, `db_alkareem`.`subscriptions`.`subscription_name`, `db_alkareem`.`subscriptions`.`subcription_price` FROM `db_alkareem`.`subscriptions` WHERE `db_alkareem`.`subscriptions`.`id` IN (?)</div>
+                <div class="params">["FREE"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.791Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`id` IN (?)</div>
+                <div class="params">["a1329f5f-5add-4003-8f72-ff5d858d6e3e"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.791Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`id` IN (?)</div>
+                <div class="params">["9ef25013-5e9f-4d64-8e3b-76bdf0af2997"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.793Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[2ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`husband_id` IN (?) ORDER BY `db_alkareem`.`profiles`.`istri_ke` ASC</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.797Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[3ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`number`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`istri_ke`, `db_alkareem`.`profiles`.`birthday`, `db_alkareem`.`profiles`.`pendidikan`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`avatar`, `db_alkareem`.`profiles`.`bio`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`bani_id`, `db_alkareem`.`profiles`.`generasi_id`, `db_alkareem`.`profiles`.`husband_id`, `db_alkareem`.`profiles`.`parent_id`, `db_alkareem`.`profiles`.`subsctiption_id`, `db_alkareem`.`profiles`.`status`, `db_alkareem`.`profiles`.`createdAt`, `db_alkareem`.`profiles`.`updatedAt` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`parent_id` IN (?) ORDER BY `db_alkareem`.`profiles`.`anak_ke` ASC</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.800Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[2ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`addresses`.`id`, `db_alkareem`.`addresses`.`street`, `db_alkareem`.`addresses`.`village`, `db_alkareem`.`addresses`.`district`, `db_alkareem`.`addresses`.`city`, `db_alkareem`.`addresses`.`province`, `db_alkareem`.`addresses`.`postal_code`, `db_alkareem`.`addresses`.`profile_id`, `db_alkareem`.`addresses`.`createdAt`, `db_alkareem`.`addresses`.`updatedAt` FROM `db_alkareem`.`addresses` WHERE `db_alkareem`.`addresses`.`profile_id` IN (?)</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.800Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`contacts`.`id`, `db_alkareem`.`contacts`.`phone`, `db_alkareem`.`contacts`.`instagram`, `db_alkareem`.`contacts`.`email`, `db_alkareem`.`contacts`.`profile_id`, `db_alkareem`.`contacts`.`createdAt`, `db_alkareem`.`contacts`.`updatedAt` FROM `db_alkareem`.`contacts` WHERE `db_alkareem`.`contacts`.`profile_id` IN (?)</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.802Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profile_bani`.`profileId`, `db_alkareem`.`profile_bani`.`baniId` FROM `db_alkareem`.`profile_bani` WHERE `db_alkareem`.`profile_bani`.`profileId` IN (?) ORDER BY `db_alkareem`.`profile_bani`.`baniId` ASC</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:13.803Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`banis`.`id`, `db_alkareem`.`banis`.`bani_name` FROM `db_alkareem`.`banis` WHERE `db_alkareem`.`banis`.`id` IN (?)</div>
+                <div class="params">[2]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:18.126Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:18.129Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id` FROM `db_alkareem`.`users` WHERE (`db_alkareem`.`users`.`id` = ? AND 1=1) LIMIT ? OFFSET ?</div>
+                <div class="params">["c51e1a44-e08a-4452-9752-f99f451c8de9",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:18.133Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[3ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`user_id` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`user_id` IN (?)</div>
+                <div class="params">["c51e1a44-e08a-4452-9752-f99f451c8de9"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:18.135Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[1ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`profiles`.`id`, `db_alkareem`.`profiles`.`user_id`, `db_alkareem`.`profiles`.`anak_ke`, `db_alkareem`.`profiles`.`name`, `db_alkareem`.`profiles`.`gender`, `db_alkareem`.`profiles`.`alive_status`, `db_alkareem`.`profiles`.`parent_id` FROM `db_alkareem`.`profiles` WHERE `db_alkareem`.`profiles`.`parent_id` IN (?) ORDER BY `db_alkareem`.`profiles`.`anak_ke` ASC</div>
+                <div class="params">["2f76571c-35b3-4c6d-af84-fc872b4e1809"]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:23.242Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+            <div class="log-entry">
+                <div class="log-header">
+                    <span class="timestamp">2025-03-24T22:58:23.243Z</span>
+                    <span class="level level-info">INFO</span>
+                    <span class="target">@quaint::connector::metrics</span>
+                </div>
+                
+                <div><span class="duration">[0ms]</span></div>
+                <div class="query">SELECT `db_alkareem`.`users`.`id`, `db_alkareem`.`users`.`username`, `db_alkareem`.`users`.`password`, `db_alkareem`.`users`.`token`, `db_alkareem`.`users`.`role`, `db_alkareem`.`users`.`createdAt`, `db_alkareem`.`users`.`updatedAt` FROM `db_alkareem`.`users` WHERE `db_alkareem`.`users`.`token` = ? LIMIT ? OFFSET ?</div>
+                <div class="params">["d805ebbf-41c4-4412-b292-3c1751d75642",1,0]</div>
+            
+            </div>
+        
+        </div>
+    </div>
+    
+    <script>
+        // Auto-scroll to bottom
+        const logContainer = document.getElementById('log-container');
+        logContainer.scrollTop = logContainer.scrollHeight;
+        
+        // Auto-refresh every 3 seconds
+        setTimeout(() => location.reload(), 3000);
+    </script>
+</body>
+</html>

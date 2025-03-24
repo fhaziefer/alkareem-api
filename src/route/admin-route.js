@@ -3,6 +3,7 @@ import { authAdminMiddleware } from '../middleware/admin-auth-middleware.js';
 import adminController from '../controller/admin-controller.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
+import path from "path";
 
 const adminRouter = new express.Router();
 
@@ -35,6 +36,11 @@ adminRouter.patch('/admin/user/profile/contact/:id', adminController.contactUpda
 adminRouter.post('/admin/user/profile/address/:id', adminController.addressCreateAdmin);
 adminRouter.get('/admin/user/profile/address/:id', adminController.getAddressByIdAdmin);
 adminRouter.patch('/admin/user/profile/address/:id', adminController.addressUpdateAdmin);
+
+// Log viewer route
+adminRouter.get("/logs", (req, res) => {
+    res.sendFile(path.resolve("public/files/log.html"));
+  });
 
 export{
     adminRouter
